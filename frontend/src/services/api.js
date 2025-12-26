@@ -1,6 +1,6 @@
 // src/services/api.js
 const API_BASE_URL =
-  process.env.NEXT_PUBLIC_API_URL || "http://localhost:5001/api";
+ "https://insyd-ht16.onrender.com/api";
 
 export const api = {
   // Inventory Fetching
