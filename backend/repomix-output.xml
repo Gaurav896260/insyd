@@ -1,0 +1,567 @@
+This file is a merged representation of the entire codebase, combined into a single document by Repomix.
+
+<file_summary>
+This section contains a summary of this file.
+
+<purpose>
+This file contains a packed representation of the entire repository's contents.
+It is designed to be easily consumable by AI systems for analysis, code review,
+or other automated processes.
+</purpose>
+
+<file_format>
+The content is organized as follows:
+1. This summary section
+2. Repository information
+3. Directory structure
+4. Repository files (if enabled)
+5. Multiple file entries, each consisting of:
+  - File path as an attribute
+  - Full contents of the file
+</file_format>
+
+<usage_guidelines>
+- This file should be treated as read-only. Any changes should be made to the
+  original repository files, not this packed version.
+- When processing this file, use the file path to distinguish
+  between different files in the repository.
+- Be aware that this file may contain sensitive information. Handle it with
+  the same level of security as you would the original repository.
+</usage_guidelines>
+
+<notes>
+- Some files may have been excluded based on .gitignore rules and Repomix's configuration
+- Binary files are not included in this packed representation. Please refer to the Repository Structure section for a complete list of file paths, including binary files
+- Files matching patterns in .gitignore are excluded
+- Files matching default ignore patterns are excluded
+- Files are sorted by Git change count (files with more changes are at the bottom)
+</notes>
+
+</file_summary>
+
+<directory_structure>
+src/
+  config/
+    db.js
+  controllers/
+    analytics.controller.js
+    audit.controller.js
+    inventory.controller.js
+    sales.controller.js
+  middlewares/
+    error.middleware.js
+  models/
+    AuditLog.js
+    InventoryItem.js
+    Sale.js
+  routes/
+    analytics.routes.js
+    audit.routes.js
+    inventory.routes.js
+    sales.routes.js
+  services/
+    deadStock.service.js
+    reorder.service.js
+  utils/
+    constants.js
+  app.js
+  server.js
+package.json
+seed.js
+</directory_structure>
+
+<files>
+This section contains the contents of the repository's files.
+
+<file path="src/config/db.js">
+const mongoose = require("mongoose");
+
+const connectDB = async () => {
+  try {
+    const conn = await mongoose.connect(process.env.MONGODB_URI);
+    console.log(`MongoDB Connected: ${conn.connection.host}`);
+  } catch (error) {
+    console.error(`Error: ${error.message}`);
+    process.exit(1);
+  }
+};
+
+module.exports = connectDB;
+</file>
+
+<file path="src/controllers/analytics.controller.js">
+const DeadStockService = require("../services/deadStock.service");
+const Sale = require("../models/Sale");
+
+exports.getDeadStockReport = async (req, res, next) => {
+  try {
+    const report = await DeadStockService.getCategorizedStock();
+    const filtered = report.filter((i) => i.status !== "Active");
+    res.status(200).json({ success: true, data: filtered });
+  } catch (error) {
+    next(error);
+  }
+};
+
+exports.getFastMovingItems = async (req, res, next) => {
+  try {
+    const thirtyDaysAgo = new Date(Date.now() - 30 * 24 * 60 * 60 * 1000);
+    const fastMoving = await Sale.aggregate([
+      { $match: { soldAt: { $gte: thirtyDaysAgo } } },
+      { $group: { _id: "$sku", totalSold: { $sum: "$quantitySold" } } },
+      { $sort: { totalSold: -1 } },
+      { $limit: 10 },
+    ]);
+    res.status(200).json({ success: true, data: fastMoving });
+  } catch (error) {
+    next(error);
+  }
+};
+</file>
+
+<file path="src/controllers/audit.controller.js">
+const AuditLog = require("../models/AuditLog");
+const InventoryItem = require("../models/InventoryItem");
+
+exports.performAudit = async (req, res, next) => {
+  const { sku, physicalQuantity, note } = req.body;
+  try {
+    const item = await InventoryItem.findOne({ sku });
+    if (!item) return res.status(404).json({ message: "SKU not found" });
+
+    const difference = physicalQuantity - item.quantity;
+
+    const log = await AuditLog.create({
+      sku,
+      systemQuantity: item.quantity,
+      physicalQuantity,
+      difference,
+      note,
+    });
+
+    // Optionally sync system quantity to physical count
+    item.quantity = physicalQuantity;
+    await item.save();
+
+    res.status(201).json({ success: true, audit: log });
+  } catch (error) {
+    next(error);
+  }
+};
+</file>
+
+<file path="src/controllers/inventory.controller.js">
+const InventoryItem = require("../models/InventoryItem");
+
+exports.addItem = async (req, res, next) => {
+  try {
+    const item = await InventoryItem.create(req.body);
+    res.status(201).json({ success: true, data: item });
+  } catch (error) {
+    next(error);
+  }
+};
+
+exports.getAllItems = async (req, res, next) => {
+  try {
+    const items = await InventoryItem.find();
+    // Low Stock Alerting logic
+    const results = items.map((item) => ({
+      ...item._doc,
+      isLowStock: item.quantity <= item.reorderLevel,
+    }));
+    res
+      .status(200)
+      .json({ success: true, count: results.length, data: results });
+  } catch (error) {
+    next(error);
+  }
+};
+
+exports.getItemBySku = async (req, res, next) => {
+  try {
+    const item = await InventoryItem.findOne({ sku: req.params.sku });
+    if (!item)
+      return res.status(404).json({ success: false, message: "SKU not found" });
+    res.status(200).json({ success: true, data: item });
+  } catch (error) {
+    next(error);
+  }
+};
+
+exports.updateStock = async (req, res, next) => {
+  try {
+    const item = await InventoryItem.findOneAndUpdate(
+      { sku: req.params.sku },
+      req.body,
+      { new: true, runValidators: true }
+    );
+    res.status(200).json({ success: true, data: item });
+  } catch (error) {
+    next(error);
+  }
+};
+</file>
+
+<file path="src/controllers/sales.controller.js">
+const Sale = require("../models/Sale");
+const InventoryItem = require("../models/InventoryItem");
+
+exports.recordSale = async (req, res, next) => {
+  const { sku, quantitySold, invoiceRef } = req.body;
+  try {
+    const item = await InventoryItem.findOne({ sku });
+    if (!item) return res.status(404).json({ message: "SKU not found" });
+
+    if (item.quantity < quantitySold) {
+      return res.status(400).json({ message: "Insufficient stock" });
+    }
+
+    // Atomic update logic
+    item.quantity -= quantitySold;
+    item.lastSoldAt = Date.now();
+    await item.save();
+
+    const sale = await Sale.create({ sku, quantitySold, invoiceRef });
+
+    res
+      .status(201)
+      .json({ success: true, sale, remainingStock: item.quantity });
+  } catch (error) {
+    next(error);
+  }
+};
+</file>
+
+<file path="src/middlewares/error.middleware.js">
+const errorHandler = (err, req, res, next) => {
+  console.error(err.stack);
+
+  res.status(err.statusCode || 500).json({
+    success: false,
+    error: err.message || "Server Error",
+    stack: process.env.NODE_ENV === "development" ? err.stack : undefined,
+  });
+};
+
+module.exports = errorHandler;
+</file>
+
+<file path="src/models/AuditLog.js">
+const mongoose = require('mongoose');
+
+const auditLogSchema = new mongoose.Schema({
+  sku: { type: String, required: true },
+  systemQuantity: { type: Number, required: true },
+  physicalQuantity: { type: Number, required: true },
+  difference: { type: Number, required: true },
+  note: { type: String },
+  createdAt: { type: Date, default: Date.now }
+});
+
+module.exports = mongoose.model('AuditLog', auditLogSchema);
+</file>
+
+<file path="src/models/InventoryItem.js">
+const mongoose = require('mongoose');
+
+const inventoryItemSchema = new mongoose.Schema({
+  sku: { type: String, required: true, unique: true, index: true },
+  name: { type: String, required: true },
+  category: { type: String, required: true },
+  unit: { type: String, required: true },
+  quantity: { type: Number, default: 0 },
+  unitCost: { type: Number, required: true },
+  reorderLevel: { type: Number, default: 10 },
+  lastSoldAt: { type: Date, default: null }
+}, { timestamps: true });
+
+module.exports = mongoose.model('InventoryItem', inventoryItemSchema);
+</file>
+
+<file path="src/models/Sale.js">
+const mongoose = require('mongoose');
+
+const saleSchema = new mongoose.Schema({
+  sku: { type: String, required: true, index: true },
+  quantitySold: { type: Number, required: true },
+  soldAt: { type: Date, default: Date.now },
+  invoiceRef: { type: String }
+});
+
+module.exports = mongoose.model('Sale', saleSchema);
+</file>
+
+<file path="src/routes/analytics.routes.js">
+const express = require('express');
+const router = express.Router();
+const { getDeadStockReport, getFastMovingItems } = require('../controllers/analytics.controller');
+
+router.get('/dead-stock', getDeadStockReport);
+router.get('/fast-moving', getFastMovingItems);
+
+module.exports = router;
+</file>
+
+<file path="src/routes/audit.routes.js">
+const express = require('express');
+const router = express.Router();
+const { performAudit } = require('../controllers/audit.controller');
+
+router.post('/', performAudit);
+
+module.exports = router;
+</file>
+
+<file path="src/routes/inventory.routes.js">
+const express = require("express");
+const router = express.Router();
+const {
+  addItem,
+  getAllItems,
+  getItemBySku,
+  updateStock,
+} = require("../controllers/inventory.controller");
+
+router.route("/").post(addItem).get(getAllItems);
+router.route("/:sku").get(getItemBySku).put(updateStock);
+
+module.exports = router;
+</file>
+
+<file path="src/routes/sales.routes.js">
+const express = require("express");
+const router = express.Router();
+const { recordSale } = require("../controllers/sales.controller");
+
+router.post("/", recordSale);
+
+module.exports = router;
+</file>
+
+<file path="src/services/deadStock.service.js">
+const InventoryItem = require('../models/InventoryItem');
+const { TIMEFRAMES } = require('../utils/constants');
+
+class DeadStockService {
+  static async getCategorizedStock() {
+    const now = new Date();
+    const slowThreshold = new Date(now.setDate(now.getDate() - TIMEFRAMES.SLOW_MOVING_DAYS));
+    const deadThreshold = new Date(now.setDate(now.getDate() - TIMEFRAMES.DEAD_STOCK_DAYS));
+
+    const items = await InventoryItem.find({});
+    
+    return items.map(item => {
+      let status = 'Active';
+      // If never sold, we use createdAt as reference
+      const referenceDate = item.lastSoldAt || item.createdAt;
+
+      if (referenceDate < deadThreshold) status = 'Dead Stock';
+      else if (referenceDate < slowThreshold) status = 'Slow Moving';
+
+      return { ...item._doc, status };
+    });
+  }
+}
+
+module.exports = DeadStockService;
+</file>
+
+<file path="src/services/reorder.service.js">
+/**
+ * Logic: reorderLevel = (avgDailySales * leadTime) + safetyBuffer
+ * For this MVP, we assume constants, but in Prod, leadTime comes from Supplier Model
+ */
+class ReorderService {
+  static calculateSuggestedReorder(
+    avgDailySales,
+    leadTimeDays = 7,
+    bufferPercent = 0.2
+  ) {
+    const base = avgDailySales * leadTimeDays;
+    const buffer = base * bufferPercent;
+    return Math.ceil(base + buffer);
+  }
+}
+
+module.exports = ReorderService;
+</file>
+
+<file path="src/utils/constants.js">
+module.exports = {
+  CATEGORIES: ['Cement', 'Steel', 'Tiles', 'Pipes', 'Paint', 'Hardware'],
+  UNITS: ['bag', 'piece', 'meter', 'kg', 'bundle'],
+  TIMEFRAMES: {
+    SLOW_MOVING_DAYS: 60,
+    DEAD_STOCK_DAYS: 180,
+    FAST_MOVING_DAYS: 30
+  }
+};
+</file>
+
+<file path="src/app.js">
+const express = require('express');
+const cors = require('cors');
+const inventoryRoutes = require('./routes/inventory.routes');
+const salesRoutes = require('./routes/sales.routes');
+const analyticsRoutes = require('./routes/analytics.routes');
+const auditRoutes = require('./routes/audit.routes');
+const errorHandler = require('./middlewares/error.middleware');
+
+const app = express();
+
+app.use(cors());
+app.use(express.json());
+
+// Routes
+app.use('/api/inventory', inventoryRoutes);
+app.use('/api/sales', salesRoutes);
+app.use('/api/analytics', analyticsRoutes);
+app.use('/api/audit', auditRoutes);
+
+// Error Handling
+app.use(errorHandler);
+
+module.exports = app;
+</file>
+
+<file path="src/server.js">
+require('dotenv').config();
+const app = require('./app');
+const connectDB = require('./config/db');
+
+const PORT = process.env.PORT || 5000;
+
+connectDB();
+
+app.listen(PORT, () => {
+  console.log(`Server running in ${process.env.NODE_ENV} mode on port ${PORT}`);
+});
+</file>
+
+<file path="package.json">
+{
+  "name": "construction-inventory-backend",
+  "version": "1.0.0",
+  "description": "Inventory Management for Construction Material Suppliers",
+  "main": "src/server.js",
+  "scripts": {
+    "start": "node src/server.js",
+    "dev": "nodemon src/server.js"
+  },
+  "dependencies": {
+    "dotenv": "^16.3.1",
+    "express": "^4.18.2",
+    "mongoose": "^7.5.2",
+    "cors": "^2.8.5"
+  },
+  "devDependencies": {
+    "nodemon": "^3.0.1"
+  }
+}
+</file>
+
+<file path="seed.js">
+// seed.js
+require('dotenv').config();
+const mongoose = require('mongoose');
+const InventoryItem = require('./src/models/InventoryItem');
+const Sale = require('./src/models/Sale');
+const { CATEGORIES, UNITS } = require('./src/utils/constants');
+
+const connectDB = async () => {
+  await mongoose.connect(process.env.MONGODB_URI);
+  console.log("Connected to DB for seeding...");
+};
+
+const materials = [
+  { name: 'UltraTech Cement', category: 'Cement', unit: 'bag', cost: 450 },
+  { name: 'TATA Tiscon 12mm', category: 'Steel', unit: 'piece', cost: 800 },
+  { name: 'JSW Neosteel', category: 'Steel', unit: 'piece', cost: 750 },
+  { name: 'Asian Paints White 20L', category: 'Paint', unit: 'piece', cost: 3500 },
+  { name: 'Kajaria Floor Tiles 2x2', category: 'Tiles', unit: 'piece', cost: 120 },
+  { name: 'PVC Pipe 4 inch', category: 'Pipes', unit: 'meter', cost: 200 },
+  { name: 'Dr. Fixit Waterproofing', category: 'Hardware', unit: 'piece', cost: 500 },
+  { name: 'Birla White Wall Care', category: 'Cement', unit: 'bag', cost: 600 },
+];
+
+const seedData = async () => {
+  try {
+    // 1. Clear existing data
+    await InventoryItem.deleteMany({});
+    await Sale.deleteMany({});
+
+    console.log("Old data cleared. Generating new data...");
+
+    const items = [];
+    for (const mat of materials) {
+      // Create 3-4 variations of each material (different SKUs)
+      for (let i = 1; i <= 3; i++) {
+        const sku = `${mat.name.substring(0, 3).toUpperCase()}-${100 + i}`;
+        
+        // Randomize stock levels: some high, some dangerously low
+        const quantity = Math.floor(Math.random() * 500);
+        const reorderLevel = 50 + Math.floor(Math.random() * 50);
+
+        const item = await InventoryItem.create({
+          sku,
+          name: `${mat.name} - Batch ${i}`,
+          category: mat.category,
+          unit: mat.unit,
+          quantity,
+          unitCost: mat.cost,
+          reorderLevel,
+          // Set some to have no sales at all (for Dead Stock testing)
+          lastSoldAt: Math.random() > 0.3 ? null : new Date() 
+        });
+        items.push(item);
+      }
+    }
+
+    // 2. Generate Random Sales
+    console.log("Generating sales history...");
+    for (const item of items) {
+      // Fast Moving: Recent sales (last 30 days)
+      const recentSalesCount = Math.floor(Math.random() * 15);
+      for (let j = 0; j < recentSalesCount; j++) {
+        const soldAt = new Date();
+        soldAt.setDate(soldAt.getDate() - Math.floor(Math.random() * 25));
+        
+        await Sale.create({
+          sku: item.sku,
+          quantitySold: Math.floor(Math.random() * 20) + 1,
+          soldAt,
+          invoiceRef: `INV-${Math.floor(Math.random() * 9000) + 1000}`
+        });
+      }
+
+      // Dead Stock/Slow Moving: Sales from 70-200 days ago
+      if (Math.random() > 0.7) {
+        const oldDate = new Date();
+        oldDate.setDate(oldDate.getDate() - (70 + Math.floor(Math.random() * 130)));
+        
+        await Sale.create({
+          sku: item.sku,
+          quantitySold: 5,
+          soldAt: oldDate,
+          invoiceRef: `OLD-INV-${item.sku}`
+        });
+        
+        // Update item lastSoldAt to trigger aging logic
+        item.lastSoldAt = oldDate;
+        await item.save();
+      }
+    }
+
+    console.log(`Successfully seeded ${items.length} items and hundreds of sales!`);
+    process.exit();
+  } catch (error) {
+    console.error(error);
+    process.exit(1);
+  }
+};
+
+connectDB().then(seedData);
+</file>
+
+</files>

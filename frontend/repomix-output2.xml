@@ -1,0 +1,1888 @@
+This file is a merged representation of the entire codebase, combined into a single document by Repomix.
+
+<file_summary>
+This section contains a summary of this file.
+
+<purpose>
+This file contains a packed representation of the entire repository's contents.
+It is designed to be easily consumable by AI systems for analysis, code review,
+or other automated processes.
+</purpose>
+
+<file_format>
+The content is organized as follows:
+1. This summary section
+2. Repository information
+3. Directory structure
+4. Repository files (if enabled)
+5. Multiple file entries, each consisting of:
+  - File path as an attribute
+  - Full contents of the file
+</file_format>
+
+<usage_guidelines>
+- This file should be treated as read-only. Any changes should be made to the
+  original repository files, not this packed version.
+- When processing this file, use the file path to distinguish
+  between different files in the repository.
+- Be aware that this file may contain sensitive information. Handle it with
+  the same level of security as you would the original repository.
+</usage_guidelines>
+
+<notes>
+- Some files may have been excluded based on .gitignore rules and Repomix's configuration
+- Binary files are not included in this packed representation. Please refer to the Repository Structure section for a complete list of file paths, including binary files
+- Files matching patterns in .gitignore are excluded
+- Files matching default ignore patterns are excluded
+- Files are sorted by Git change count (files with more changes are at the bottom)
+</notes>
+
+</file_summary>
+
+<directory_structure>
+public/
+  file.svg
+  globe.svg
+  next.svg
+  vercel.svg
+  window.svg
+src/
+  app/
+    analytics/
+      page.js
+    dashboard/
+      page.js
+    inventory/
+      page.js
+    sales/
+      page.js
+    settings/
+      page.js
+    layout.tsx
+    page.js
+  components/
+    charts/
+      DeadStockChart.js
+      FastMovingChart.js
+      StockAgingChart.js
+    AddItemModal.jsx
+    InventoryTable.js
+    LayoutWrapper.js
+    Navbar.js
+    SalesForm.js
+    Sidebar.js
+    StatCard.js
+  services/
+    api.js
+  styles/
+    globals.css
+  utils/
+    formatters.js
+.gitignore
+eslint.config.mjs
+next.config.ts
+package.json
+postcss.config.mjs
+README.md
+tsconfig.json
+</directory_structure>
+
+<files>
+This section contains the contents of the repository's files.
+
+<file path="public/file.svg">
+<svg fill="none" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg"><path d="M14.5 13.5V5.41a1 1 0 0 0-.3-.7L9.8.29A1 1 0 0 0 9.08 0H1.5v13.5A2.5 2.5 0 0 0 4 16h8a2.5 2.5 0 0 0 2.5-2.5m-1.5 0v-7H8v-5H3v12a1 1 0 0 0 1 1h8a1 1 0 0 0 1-1M9.5 5V2.12L12.38 5zM5.13 5h-.62v1.25h2.12V5zm-.62 3h7.12v1.25H4.5zm.62 3h-.62v1.25h7.12V11z" clip-rule="evenodd" fill="#666" fill-rule="evenodd"/></svg>
+</file>
+
+<file path="public/globe.svg">
+<svg fill="none" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><g clip-path="url(#a)"><path fill-rule="evenodd" clip-rule="evenodd" d="M10.27 14.1a6.5 6.5 0 0 0 3.67-3.45q-1.24.21-2.7.34-.31 1.83-.97 3.1M8 16A8 8 0 1 0 8 0a8 8 0 0 0 0 16m.48-1.52a7 7 0 0 1-.96 0H7.5a4 4 0 0 1-.84-1.32q-.38-.89-.63-2.08a40 40 0 0 0 3.92 0q-.25 1.2-.63 2.08a4 4 0 0 1-.84 1.31zm2.94-4.76q1.66-.15 2.95-.43a7 7 0 0 0 0-2.58q-1.3-.27-2.95-.43a18 18 0 0 1 0 3.44m-1.27-3.54a17 17 0 0 1 0 3.64 39 39 0 0 1-4.3 0 17 17 0 0 1 0-3.64 39 39 0 0 1 4.3 0m1.1-1.17q1.45.13 2.69.34a6.5 6.5 0 0 0-3.67-3.44q.65 1.26.98 3.1M8.48 1.5l.01.02q.41.37.84 1.31.38.89.63 2.08a40 40 0 0 0-3.92 0q.25-1.2.63-2.08a4 4 0 0 1 .85-1.32 7 7 0 0 1 .96 0m-2.75.4a6.5 6.5 0 0 0-3.67 3.44 29 29 0 0 1 2.7-.34q.31-1.83.97-3.1M4.58 6.28q-1.66.16-2.95.43a7 7 0 0 0 0 2.58q1.3.27 2.95.43a18 18 0 0 1 0-3.44m.17 4.71q-1.45-.12-2.69-.34a6.5 6.5 0 0 0 3.67 3.44q-.65-1.27-.98-3.1" fill="#666"/></g><defs><clipPath id="a"><path fill="#fff" d="M0 0h16v16H0z"/></clipPath></defs></svg>
+</file>
+
+<file path="public/next.svg">
+<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 394 80"><path fill="#000" d="M262 0h68.5v12.7h-27.2v66.6h-13.6V12.7H262V0ZM149 0v12.7H94v20.4h44.3v12.6H94v21h55v12.6H80.5V0h68.7zm34.3 0h-17.8l63.8 79.4h17.9l-32-39.7 32-39.6h-17.9l-23 28.6-23-28.6zm18.3 56.7-9-11-27.1 33.7h17.8l18.3-22.7z"/><path fill="#000" d="M81 79.3 17 0H0v79.3h13.6V17l50.2 62.3H81Zm252.6-.4c-1 0-1.8-.4-2.5-1s-1.1-1.6-1.1-2.6.3-1.8 1-2.5 1.6-1 2.6-1 1.8.3 2.5 1a3.4 3.4 0 0 1 .6 4.3 3.7 3.7 0 0 1-3 1.8zm23.2-33.5h6v23.3c0 2.1-.4 4-1.3 5.5a9.1 9.1 0 0 1-3.8 3.5c-1.6.8-3.5 1.3-5.7 1.3-2 0-3.7-.4-5.3-1s-2.8-1.8-3.7-3.2c-.9-1.3-1.4-3-1.4-5h6c.1.8.3 1.6.7 2.2s1 1.2 1.6 1.5c.7.4 1.5.5 2.4.5 1 0 1.8-.2 2.4-.6a4 4 0 0 0 1.6-1.8c.3-.8.5-1.8.5-3V45.5zm30.9 9.1a4.4 4.4 0 0 0-2-3.3 7.5 7.5 0 0 0-4.3-1.1c-1.3 0-2.4.2-3.3.5-.9.4-1.6 1-2 1.6a3.5 3.5 0 0 0-.3 4c.3.5.7.9 1.3 1.2l1.8 1 2 .5 3.2.8c1.3.3 2.5.7 3.7 1.2a13 13 0 0 1 3.2 1.8 8.1 8.1 0 0 1 3 6.5c0 2-.5 3.7-1.5 5.1a10 10 0 0 1-4.4 3.5c-1.8.8-4.1 1.2-6.8 1.2-2.6 0-4.9-.4-6.8-1.2-2-.8-3.4-2-4.5-3.5a10 10 0 0 1-1.7-5.6h6a5 5 0 0 0 3.5 4.6c1 .4 2.2.6 3.4.6 1.3 0 2.5-.2 3.5-.6 1-.4 1.8-1 2.4-1.7a4 4 0 0 0 .8-2.4c0-.9-.2-1.6-.7-2.2a11 11 0 0 0-2.1-1.4l-3.2-1-3.8-1c-2.8-.7-5-1.7-6.6-3.2a7.2 7.2 0 0 1-2.4-5.7 8 8 0 0 1 1.7-5 10 10 0 0 1 4.3-3.5c2-.8 4-1.2 6.4-1.2 2.3 0 4.4.4 6.2 1.2 1.8.8 3.2 2 4.3 3.4 1 1.4 1.5 3 1.5 5h-5.8z"/></svg>
+</file>
+
+<file path="public/vercel.svg">
+<svg fill="none" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1155 1000"><path d="m577.3 0 577.4 1000H0z" fill="#fff"/></svg>
+</file>
+
+<file path="public/window.svg">
+<svg fill="none" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path fill-rule="evenodd" clip-rule="evenodd" d="M1.5 2.5h13v10a1 1 0 0 1-1 1h-11a1 1 0 0 1-1-1zM0 1h16v11.5a2.5 2.5 0 0 1-2.5 2.5h-11A2.5 2.5 0 0 1 0 12.5zm3.75 4.5a.75.75 0 1 0 0-1.5.75.75 0 0 0 0 1.5M7 4.75a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0m1.75.75a.75.75 0 1 0 0-1.5.75.75 0 0 0 0 1.5" fill="#666"/></svg>
+</file>
+
+<file path="src/app/analytics/page.js">
+// src/app/analytics/page.js
+"use client";
+import { useEffect, useState } from "react";
+import FastMovingChart from "@/components/charts/FastMovingChart";
+import StockAgingChart from "@/components/charts/StockAgingChart"; // New Component
+import { api } from "@/services/api";
+import { Loader2, Clock, TrendingUp } from "lucide-react";
+
+export default function AnalyticsPage() {
+  const [reports, setReports] = useState({ dead: [], fast: [], loading: true });
+
+  useEffect(() => {
+    const loadAnalytics = async () => {
+      try {
+        const [deadData, fastData] = await Promise.all([
+          api.getDeadStock(),
+          api.getFastMoving(),
+        ]);
+        setReports({ dead: deadData, fast: fastData, loading: false });
+      } catch (err) {
+        console.error("Analytics fetch failed", err);
+        setReports((prev) => ({ ...prev, loading: false }));
+      }
+    };
+    loadAnalytics();
+  }, []);
+
+  if (reports.loading)
+    return (
+      <div className="flex justify-center p-20">
+        <Loader2 className="animate-spin h-10 w-10 text-black" />
+      </div>
+    );
+
+  return (
+    <div className="space-y-8">
+      <div className="flex flex-col gap-1">
+        <h1 className="text-2xl font-black text-black tracking-tighter uppercase">
+          Deep Dive Analytics
+        </h1>
+        <p className="text-sm font-bold text-zinc-500 uppercase tracking-widest">
+          Categorizing stock based on movement velocity and age.
+        </p>
+      </div>
+
+      <div className="grid grid-cols-1 gap-8">
+        {/* Stock Aging Line Graph */}
+        <div className="bg-white p-6 rounded-2xl border border-zinc-200 shadow-sm">
+          <div className="flex items-center gap-2 mb-6 text-black">
+            <Clock size={20} />
+            <h3 className="font-black uppercase tracking-tight">
+              Stock Aging Report (Velocity)
+            </h3>
+          </div>
+          <StockAgingChart data={reports.dead} />
+        </div>
+
+        <div className="grid md:grid-cols-2 gap-8">
+          {/* List View of Aging Stock */}
+          <div className="bg-white p-6 rounded-2xl border border-zinc-200">
+            <h3 className="font-black uppercase text-xs mb-4 tracking-widest">
+              Aging Details
+            </h3>
+            <div className="space-y-4">
+              {reports.dead.map((item) => (
+                <div
+                  key={item.sku}
+                  className="flex justify-between items-center border-b border-zinc-100 pb-2"
+                >
+                  <span className="text-sm font-bold text-black uppercase">
+                    {item.name}
+                  </span>
+                  <span className="text-xs font-mono bg-black text-white px-2 py-0.5 rounded">
+                    {item.status}
+                  </span>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          {/* Fast Moving Bar Chart */}
+          <div className="bg-white p-6 rounded-2xl border border-zinc-200 shadow-sm">
+            <div className="flex items-center gap-2 mb-6 text-black">
+              <TrendingUp size={20} />
+              <h3 className="font-black uppercase tracking-tight">
+                Top Sellers
+              </h3>
+            </div>
+            <FastMovingChart chartData={reports.fast} />
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+</file>
+
+<file path="src/app/dashboard/page.js">
+// src/app/dashboard/page.js
+"use client";
+import { useEffect, useState } from "react";
+import StatCard from "@/components/StatCard";
+import FastMovingChart from "@/components/charts/FastMovingChart";
+import DeadStockChart from "@/components/charts/DeadStockChart";
+import { AlertTriangle, Loader2 } from "lucide-react";
+import { api } from "@/services/api";
+
+export default function Dashboard() {
+  const [data, setData] = useState({
+    inventory: [],
+    deadStock: [],
+    fastMoving: [],
+    loading: true,
+  });
+
+  useEffect(() => {
+    const loadDashboardData = async () => {
+      try {
+        const [inventory, deadStock, fastMoving] = await Promise.all([
+          api.getInventory(),
+          api.getDeadStock(),
+          api.getFastMoving(),
+        ]);
+        setData({ inventory, deadStock, fastMoving, loading: false });
+      } catch (err) {
+        console.error("Failed to fetch dashboard data", err);
+        setData((prev) => ({ ...prev, loading: false }));
+      }
+    };
+    loadDashboardData();
+  }, []);
+
+  if (data.loading) {
+    return (
+      <div className="flex h-96 items-center justify-center bg-white">
+        <Loader2 className="animate-spin h-10 w-10 text-gray-900" />
+      </div>
+    );
+  }
+
+  // Derived Stats
+  const totalSKUs = data.inventory.length;
+  const totalQuantity = data.inventory.reduce(
+    (acc, item) => acc + item.quantity,
+    0
+  );
+  const lowStockItems = data.inventory.filter(
+    (item) => item.quantity <= item.reorderLevel
+  );
+  const deadStockPercent =
+    totalSKUs > 0 ? ((data.deadStock.length / totalSKUs) * 100).toFixed(0) : 0;
+
+  return (
+    <div className="space-y-8 bg-white min-h-screen">
+      <div className="flex flex-col gap-2">
+        <h1 className="text-3xl font-semibold text-gray-900 tracking-tight">
+          Business Overview
+        </h1>
+        <p className="text-sm text-gray-500 font-normal">
+          Real-time visibility into your Cement, Steel, and Paint stock.
+        </p>
+      </div>
+
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-5">
+        <StatCard
+          title="Total SKUs"
+          value={totalSKUs}
+          subtext="Active materials"
+          color="text-gray-900"
+        />
+        <StatCard
+          title="Total Quantity"
+          value={totalQuantity.toLocaleString()}
+          subtext="Units on hand"
+          color="text-gray-900"
+        />
+        <StatCard
+          title="Low Stock"
+          value={lowStockItems.length}
+          subtext="Requires reorder"
+          color="text-gray-900"
+        />
+        <StatCard
+          title="Dead Stock"
+          value={`${deadStockPercent}%`}
+          subtext="No movement recently"
+          color="text-gray-900"
+        />
+      </div>
+
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        <FastMovingChart chartData={data.fastMoving} />
+        <DeadStockChart inventoryData={data.inventory} />
+      </div>
+
+      <div className="bg-white p-7 rounded-2xl border border-gray-200">
+        <div className="flex items-center gap-3 mb-6">
+          <div className="w-10 h-10 rounded-xl bg-gray-100 flex items-center justify-center">
+            <AlertTriangle className="w-5 h-5 text-gray-900" />
+          </div>
+          <h3 className="text-lg font-semibold text-gray-900">
+            Critical Low Stock Alerts
+          </h3>
+        </div>
+        <div className="space-y-3">
+          {lowStockItems.slice(0, 5).map((item) => (
+            <div
+              key={item.sku}
+              className="flex items-center justify-between p-5 bg-gray-50 rounded-xl border border-gray-100 hover:border-gray-200 transition-colors"
+            >
+              <div className="flex flex-col gap-1">
+                <span className="font-medium text-gray-900">{item.name}</span>
+                <span className="text-sm text-gray-500 font-normal">
+                  Current: {item.quantity} {item.unit} · Min:{" "}
+                  {item.reorderLevel}
+                </span>
+              </div>
+              <span className="text-xs font-medium px-4 py-1.5 rounded-full bg-gray-900 text-white">
+                REORDER
+              </span>
+            </div>
+          ))}
+          {lowStockItems.length === 0 && (
+            <p className="text-gray-400 text-sm font-normal py-4 text-center">
+              All stock levels are healthy.
+            </p>
+          )}
+        </div>
+      </div>
+    </div>
+  );
+}
+</file>
+
+<file path="src/app/inventory/page.js">
+// src/app/inventory/page.js
+"use client";
+import { useEffect, useState } from "react";
+import InventoryTable from "@/components/InventoryTable";
+import AddItemModal from "@/components/AddItemModal";
+import { api } from "@/services/api";
+import { Loader2, Plus } from "lucide-react";
+
+export default function InventoryPage() {
+  const [items, setItems] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const fetchInventory = async () => {
+    setLoading(true);
+    try {
+      const data = await api.getInventory();
+      setItems(data);
+    } catch (error) {
+      console.error("Failed to load inventory", error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    fetchInventory();
+  }, []);
+
+  return (
+    <div className="space-y-6">
+      <div className="flex justify-between items-center">
+        <div>
+          <h1 className="text-2xl font-bold text-gray-900">
+            Current Inventory
+          </h1>
+          <p className="text-sm text-gray-500">
+            Manage your construction materials and stock levels.
+          </p>
+        </div>
+        <button
+          onClick={() => setIsModalOpen(true)}
+          className="bg-black hover:bg-zinc-800 text-white px-4 py-2 rounded-lg font-medium flex items-center gap-2 transition-colors border border-black"
+        >
+          <Plus size={18} />
+          Add Item
+        </button>
+      </div>
+
+      {loading ? (
+        <div className="flex justify-center py-20">
+          <Loader2 className="animate-spin h-10 w-10 text-black" />
+        </div>
+      ) : (
+        <InventoryTable items={items} />
+      )}
+
+      {isModalOpen && (
+        <AddItemModal
+          onClose={() => setIsModalOpen(false)}
+          onSuccess={() => {
+            setIsModalOpen(false);
+            fetchInventory();
+          }}
+        />
+      )}
+    </div>
+  );
+}
+</file>
+
+<file path="src/app/sales/page.js">
+"use client";
+import { useState, useEffect } from "react";
+import { api } from "@/services/api";
+import { ShoppingCart, CheckCircle2, AlertCircle, Loader2 } from "lucide-react";
+
+export default function SalesPage() {
+  const [items, setItems] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [form, setForm] = useState({
+    sku: "",
+    quantitySold: "",
+    invoiceRef: "",
+  });
+  const [status, setStatus] = useState({ type: "", msg: "" });
+
+  // Fetch available SKUs for the dropdown
+  useEffect(() => {
+    const loadItems = async () => {
+      try {
+        const data = await api.getInventory();
+        setItems(data);
+      } catch (err) {
+        console.error("Failed to fetch SKUs", err);
+      } finally {
+        setLoading(false);
+      }
+    };
+    loadItems();
+  }, []);
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setStatus({ type: "", msg: "" });
+
+    try {
+      // Backend expects: { sku, quantitySold, invoiceRef }
+      const payload = {
+        ...form,
+        quantitySold: Number(form.quantitySold),
+      };
+
+      const res = await fetch("http://localhost:5001/api/sales", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload),
+      });
+
+      const result = await res.json();
+
+      if (result.success) {
+        setStatus({
+          type: "success",
+          msg: `Sale recorded! Remaining stock: ${result.remainingStock}`,
+        });
+        setForm({ sku: "", quantitySold: "", invoiceRef: "" });
+      } else {
+        setStatus({
+          type: "error",
+          msg: result.message || "Error recording sale",
+        });
+      }
+    } catch (err) {
+      setStatus({ type: "error", msg: "Server connection failed" });
+    }
+  };
+
+  if (loading)
+    return (
+      <div className="flex justify-center p-20">
+        <Loader2 className="animate-spin" />
+      </div>
+    );
+
+  return (
+    <div className="max-w-2xl mx-auto">
+      <div className="bg-white p-8 rounded-3xl border border-gray-100 shadow-sm">
+        <div className="flex items-center gap-3 mb-8">
+          <div className="p-2 bg-blue-50 rounded-lg">
+            <ShoppingCart className="w-5 h-5 text-blue-600" />
+          </div>
+          <h1 className="text-2xl font-bold text-gray-900">New Sales Entry</h1>
+        </div>
+
+        <form onSubmit={handleSubmit} className="space-y-5">
+          <div>
+            <label className="block text-xs font-bold text-gray-500 uppercase mb-2">
+              Select Material (SKU)
+            </label>
+            <select
+              className="w-full border border-gray-200 rounded-xl p-3 focus:ring-2 focus:ring-blue-500 outline-none transition-all"
+              value={form.sku}
+              onChange={(e) => setForm({ ...form, sku: e.target.value })}
+              required
+            >
+              <option value="">Choose item...</option>
+              {items.map((item) => (
+                <option key={item.sku} value={item.sku}>
+                  {item.name} ({item.sku}) — {item.quantity} available
+                </option>
+              ))}
+            </select>
+          </div>
+
+          <div className="grid grid-cols-2 gap-4">
+            <div>
+              <label className="block text-xs font-bold text-gray-500 uppercase mb-2">
+                Quantity Sold
+              </label>
+              <input
+                type="number"
+                className="w-full border border-gray-200 rounded-xl p-3 focus:ring-2 focus:ring-blue-500 outline-none"
+                placeholder="0"
+                value={form.quantitySold}
+                onChange={(e) =>
+                  setForm({ ...form, quantitySold: e.target.value })
+                }
+                required
+              />
+            </div>
+            <div>
+              <label className="block text-xs font-bold text-gray-500 uppercase mb-2">
+                Invoice / Ref
+              </label>
+              <input
+                type="text"
+                className="w-full border border-gray-200 rounded-xl p-3 focus:ring-2 focus:ring-blue-500 outline-none"
+                placeholder="INV-2024-001"
+                value={form.invoiceRef}
+                onChange={(e) =>
+                  setForm({ ...form, invoiceRef: e.target.value })
+                }
+              />
+            </div>
+          </div>
+
+          <button className="w-full bg-gray-900 text-white py-4 rounded-xl font-bold mt-4 hover:bg-gray-800 transition-all shadow-lg active:scale-[0.98]">
+            Complete Transaction
+          </button>
+        </form>
+
+        {status.msg && (
+          <div
+            className={`mt-6 p-4 rounded-xl flex items-center gap-3 ${
+              status.type === "success"
+                ? "bg-green-50 text-green-700 border border-green-100"
+                : "bg-red-50 text-red-700 border border-red-100"
+            }`}
+          >
+            {status.type === "success" ? (
+              <CheckCircle2 size={18} />
+            ) : (
+              <AlertCircle size={18} />
+            )}
+            <p className="text-sm font-medium">{status.msg}</p>
+          </div>
+        )}
+      </div>
+    </div>
+  );
+}
+</file>
+
+<file path="src/app/settings/page.js">
+export default function SettingsPage() {
+  return (
+    <div className="max-w-3xl">
+      <h1 className="text-2xl font-bold mb-8">System Settings</h1>
+
+      <section className="bg-white rounded-xl border p-6 space-y-6">
+        <div>
+          <h3 className="font-semibold text-lg mb-4">Stock Thresholds</h3>
+          <div className="grid grid-cols-2 gap-4">
+            <div>
+              <label className="text-sm text-slate-500">
+                Global Low Stock Alert (%)
+              </label>
+              <input
+                type="number"
+                defaultValue="20"
+                className="w-full border rounded p-2"
+              />
+            </div>
+            <div>
+              <label className="text-sm text-slate-500">
+                Dead Stock Period (Days)
+              </label>
+              <input
+                type="number"
+                defaultValue="90"
+                className="w-full border rounded p-2"
+              />
+            </div>
+          </div>
+        </div>
+
+        <div className="pt-6 border-t">
+          <button className="bg-slate-900 text-white px-6 py-2 rounded-lg font-medium">
+            Save Changes
+          </button>
+        </div>
+      </section>
+    </div>
+  );
+}
+</file>
+
+<file path="src/app/layout.tsx">
+import "../styles/globals.css";
+import LayoutWrapper from "../components/LayoutWrapper";
+export const metadata = {
+  title: "BuildStock - Construction Inventory",
+  description: "Smart inventory for construction material suppliers",
+};
+
+export default function RootLayout({
+  children,
+}: {
+  children: React.ReactNode,
+}) {
+  return (
+    <html lang="en">
+      <body className="antialiased">
+        <LayoutWrapper>{children}</LayoutWrapper>
+      </body>
+    </html>
+  );
+}
+</file>
+
+<file path="src/app/page.js">
+import React from "react";
+import {
+  Box,
+  BarChart3,
+  ShieldCheck,
+  Search,
+  Sun,
+  Clock,
+  Bell,
+  Menu,
+  MoreHorizontal,
+  ChevronDown,
+  ChevronRight,
+} from "lucide-react";
+import Link from "next/link";
+
+export default function LandingPage() {
+  return (
+    <div className="bg-white text-gray-900 min-h-screen">
+      {/* Navigation */}
+      <nav className="relative z-50 w-full px-6 py-6 flex justify-between items-center max-w-7xl mx-auto">
+        <div className="flex items-center gap-3">
+          <div className="w-10 h-10 bg-gray-900 text-white rounded-xl flex items-center justify-center shadow-lg">
+            <Box className="w-5 h-5" />
+          </div>
+          <span className="font-bold text-xl tracking-tight">BuildStock</span>
+        </div>
+        <div className="hidden md:flex gap-10 text-sm font-medium text-gray-600">
+          <a className="hover:text-gray-900 transition-colors" href="#">
+            Features
+          </a>
+          <a className="hover:text-gray-900 transition-colors" href="#">
+            Pricing
+          </a>
+          <a
+            className="flex items-center gap-1 hover:text-gray-900 transition-colors group"
+            href="/dashboard"
+          >
+            Open Dashboard
+            <ChevronRight className="w-3 h-3 group-hover:translate-x-0.5 transition-transform" />
+          </a>
+        </div>
+        <div>
+          <button className="bg-gray-900 text-white px-6 py-2.5 rounded-xl text-sm font-medium hover:bg-gray-800 transition-colors shadow-lg">
+            Get Started
+          </button>
+        </div>
+      </nav>
+
+      {/* Hero Section */}
+      <main className="relative z-10 w-full max-w-7xl mx-auto px-4 sm:px-6 pt-12 pb-20">
+        <div className="text-center mb-16 relative">
+          <div className="flex justify-center gap-6 mb-8">
+            <div className="w-12 h-12 bg-white rounded-full shadow-md flex items-center justify-center border border-gray-100">
+              <Box className="w-5 h-5 text-gray-700" />
+            </div>
+            <div className="w-12 h-12 bg-white rounded-full shadow-md flex items-center justify-center border border-gray-100">
+              <BarChart3 className="w-5 h-5 text-gray-700" />
+            </div>
+            <div className="w-12 h-12 bg-white rounded-full shadow-md flex items-center justify-center border border-gray-100">
+              <ShieldCheck className="w-5 h-5 text-gray-700" />
+            </div>
+          </div>
+
+          <h1 className="text-5xl md:text-7xl font-medium mb-6 leading-[1.1] tracking-tight">
+            Inventory Intelligence for
+            <br />
+            <span className="text-gray-500">Construction Businesses</span>
+          </h1>
+          <p className="text-lg text-gray-400 max-w-2xl mx-auto mb-10 font-light leading-relaxed">
+            Real-time visibility into your Cement, Steel, and Paint stock.
+            Identify dead stock before it costs you and never miss a sale due to
+            low supplies.
+          </p>
+          <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
+            <Link
+              href="/dashboard"
+              className="bg-gray-900 text-white px-8 py-3.5 rounded-xl text-sm font-medium hover:bg-gray-800 transition-all shadow-xl"
+            >
+              Let's Get Started
+            </Link>
+            <button className="bg-white border border-gray-200 text-gray-900 px-8 py-3.5 rounded-xl text-sm font-medium hover:bg-gray-50 transition-all">
+              View Demo
+            </button>
+          </div>
+        </div>
+
+        {/* Dashboard Preview */}
+        <div className="relative w-full bg-white rounded-3xl shadow-2xl border border-gray-200 overflow-hidden flex flex-col md:flex-row min-h-[700px] ring-1 ring-black/5">
+          {/* Sidebar */}
+          <aside className="w-full md:w-64 bg-gray-50 border-r border-gray-200 flex flex-col p-6 hidden md:flex">
+            <div className="flex items-center gap-2 mb-10">
+              <div className="w-8 h-8 bg-gray-900 text-white rounded-lg flex items-center justify-center shadow-md">
+                <Box className="w-4 h-4" />
+              </div>
+              <span className="font-bold text-lg">BuildStock</span>
+            </div>
+            <div className="space-y-1">
+              <p className="text-[11px] font-bold text-gray-400 uppercase tracking-wider mb-4 px-3">
+                Menu
+              </p>
+              <div className="flex items-center gap-3 px-3 py-2.5 bg-white text-gray-900 rounded-xl shadow-sm border border-gray-200">
+                <BarChart3 className="w-4 h-4" />
+                <span className="text-sm font-medium">Dashboard</span>
+              </div>
+              <div className="flex items-center gap-3 px-3 py-2.5 text-gray-500 hover:text-gray-900 hover:bg-white rounded-xl transition-all cursor-pointer">
+                <Box className="w-4 h-4" />
+                <span className="text-sm font-medium">Inventory</span>
+              </div>
+              <div className="flex items-center gap-3 px-3 py-2.5 text-gray-500 hover:text-gray-900 hover:bg-white rounded-xl transition-all cursor-pointer">
+                <ShieldCheck className="w-4 h-4" />
+                <span className="text-sm font-medium">Alerts</span>
+              </div>
+            </div>
+          </aside>
+
+          {/* Main Content */}
+          <div className="flex-1 flex flex-col bg-white relative overflow-hidden">
+            {/* Header */}
+            <header className="h-20 border-b border-gray-200 flex items-center justify-between px-8 bg-white/80 backdrop-blur-md z-10">
+              <div className="flex items-center gap-4">
+                <div className="w-10 h-10 rounded-full bg-blue-600 flex items-center justify-center text-white font-bold shadow-md">
+                  T
+                </div>
+                <div>
+                  <h2 className="text-sm font-bold">Hey, Timothy</h2>
+                  <p className="text-xs text-gray-500">Sunday, June 25, 2024</p>
+                </div>
+              </div>
+              <div className="flex items-center gap-4">
+                <div className="relative hidden sm:block">
+                  <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
+                  <input
+                    className="pl-10 pr-12 py-2 bg-gray-50 border border-gray-200 rounded-lg text-sm focus:outline-none w-64"
+                    placeholder="Search"
+                    type="text"
+                  />
+                </div>
+                <div className="flex items-center gap-1 text-gray-400 border-l border-gray-200 pl-4">
+                  <Sun className="w-5 h-5" />
+                  <Bell className="w-5 h-5 ml-2" />
+                </div>
+              </div>
+            </header>
+
+            {/* Content Area */}
+            <div className="flex-1 p-8 overflow-y-auto bg-gray-50/30">
+              <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                {/* Card 1 */}
+                <div className="bg-white p-8 rounded-3xl shadow-sm border border-gray-100">
+                  <div className="flex justify-between items-start mb-10">
+                    <div className="flex items-center gap-4">
+                      <div className="w-12 h-12 rounded-full bg-gray-50 flex items-center justify-center border border-gray-100">
+                        <Box className="w-6 h-6 text-gray-600" />
+                      </div>
+                      <div>
+                        <h3 className="text-3xl font-bold tracking-tight">
+                          ₹8.95L
+                        </h3>
+                        <div className="text-xs text-gray-400 mt-1 uppercase">
+                          Total Stock Value
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div className="h-32 flex items-end justify-between gap-4 px-2">
+                    {[40, 60, 30, 80, 50, 45].map((height, i) => (
+                      <div
+                        key={i}
+                        className="w-full bg-gray-100 rounded-t-lg"
+                        style={{ height: `${height}%` }}
+                      ></div>
+                    ))}
+                  </div>
+                </div>
+
+                {/* Card 2 */}
+                <div className="bg-white p-8 rounded-3xl shadow-sm border border-gray-100">
+                  <div className="flex justify-between items-start mb-8">
+                    <div className="flex items-center gap-4">
+                      <div className="w-12 h-12 rounded-full bg-gray-900 text-white flex items-center justify-center shadow-lg">
+                        <Box className="w-6 h-6" />
+                      </div>
+                      <div>
+                        <h3 className="font-bold text-lg">Cement Stock</h3>
+                        <p className="text-xs text-green-600 font-semibold">
+                          +12% this month
+                        </p>
+                      </div>
+                    </div>
+                    <div className="text-right">
+                      <div className="text-3xl font-bold">
+                        450{" "}
+                        <span className="text-lg font-normal text-gray-400">
+                          Bags
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+                  <div className="h-32 flex items-end justify-between gap-3 px-2 pt-4">
+                    {[60, 75, 55, 90, 70, 45, 65].map((height, i) => (
+                      <div
+                        key={i}
+                        className="w-full bg-gray-100 rounded-t-md"
+                        style={{ height: `${height}%` }}
+                      ></div>
+                    ))}
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </main>
+    </div>
+  );
+}
+</file>
+
+<file path="src/components/charts/DeadStockChart.js">
+// src/components/charts/DeadStockChart.js
+"use client";
+import {
+  PieChart,
+  Pie,
+  Cell,
+  ResponsiveContainer,
+  Legend,
+  Tooltip,
+} from "recharts";
+
+const data = [
+  { name: "Active Stock", value: 75 },
+  { name: "Slow Moving", value: 15 },
+  { name: "Dead Stock", value: 10 },
+];
+
+const COLORS = ["#000000", "#525252", "#a3a3a3"];
+
+export default function DeadStockChart() {
+  return (
+    <div className="h-80 w-full bg-white p-6 rounded-2xl border border-gray-200">
+      <h3 className="text-lg font-semibold mb-6 text-gray-900">
+        Stock Vitality
+      </h3>
+      <ResponsiveContainer width="100%" height="85%">
+        <PieChart>
+          <Pie
+            data={data}
+            innerRadius={65}
+            outerRadius={95}
+            paddingAngle={3}
+            dataKey="value"
+          >
+            {data.map((entry, index) => (
+              <Cell
+                key={`cell-${index}`}
+                fill={COLORS[index % COLORS.length]}
+              />
+            ))}
+          </Pie>
+          <Tooltip
+            contentStyle={{
+              borderRadius: "12px",
+              border: "1px solid #e5e7eb",
+              boxShadow: "0 4px 6px -1px rgba(0, 0, 0, 0.1)",
+              fontFamily: "inherit",
+              fontSize: "14px",
+            }}
+          />
+          <Legend
+            wrapperStyle={{
+              fontSize: "14px",
+              fontFamily: "inherit",
+            }}
+          />
+        </PieChart>
+      </ResponsiveContainer>
+    </div>
+  );
+}
+</file>
+
+<file path="src/components/charts/FastMovingChart.js">
+// src/components/charts/FastMovingChart.js
+"use client";
+import {
+  BarChart,
+  Bar,
+  XAxis,
+  YAxis,
+  CartesianGrid,
+  Tooltip,
+  ResponsiveContainer,
+} from "recharts";
+
+export default function FastMovingChart({ chartData = [] }) {
+  // Map backend data (_id as SKU, totalSold as value) to chart format
+  const formattedData = chartData.map((item) => ({
+    name: item._id, // This is the SKU from the aggregate group
+    sales: item.totalSold,
+  }));
+
+  return (
+    <div className="h-80 w-full bg-white p-6 rounded-2xl border border-gray-200">
+      <h3 className="text-lg font-semibold mb-6 text-gray-900">
+        Fast Moving Stock
+      </h3>
+      <ResponsiveContainer width="100%" height="85%">
+        <BarChart
+          data={
+            formattedData.length > 0
+              ? formattedData
+              : [{ name: "No Data", sales: 0 }]
+          }
+        >
+          <CartesianGrid
+            strokeDasharray="3 3"
+            vertical={false}
+            stroke="#e5e7eb"
+          />
+          <XAxis
+            dataKey="name"
+            fontSize={12}
+            tickLine={false}
+            axisLine={false}
+            stroke="#6b7280"
+            fontFamily="inherit"
+          />
+          <YAxis
+            fontSize={12}
+            tickLine={false}
+            axisLine={false}
+            stroke="#6b7280"
+            fontFamily="inherit"
+          />
+          <Tooltip
+            cursor={{ fill: "#f9fafb" }}
+            contentStyle={{
+              borderRadius: "12px",
+              border: "1px solid #e5e7eb",
+              boxShadow: "0 4px 6px -1px rgba(0, 0, 0, 0.1)",
+              fontFamily: "inherit",
+              fontSize: "14px",
+            }}
+          />
+          <Bar
+            dataKey="sales"
+            fill="#000000"
+            radius={[8, 8, 0, 0]}
+            barSize={40}
+          />
+        </BarChart>
+      </ResponsiveContainer>
+    </div>
+  );
+}
+</file>
+
+<file path="src/components/charts/StockAgingChart.js">
+// src/components/charts/StockAgingChart.js
+"use client";
+import {
+  LineChart,
+  Line,
+  XAxis,
+  YAxis,
+  CartesianGrid,
+  Tooltip,
+  ResponsiveContainer,
+} from "recharts";
+
+// Sample trend data if real history isn't available from API yet
+const sampleTrend = [
+  { day: "Day 10", age: 5 },
+  { day: "Day 30", age: 15 },
+  { day: "Day 60", age: 45 },
+  { day: "Day 90", age: 80 },
+  { day: "Day 120", age: 110 },
+];
+
+export default function StockAgingChart({ data = [] }) {
+  // If API provides items, we map them; otherwise, use trend sample
+  const chartData =
+    data.length > 0
+      ? data.map((item) => ({ name: item.name, age: item.quantity }))
+      : sampleTrend;
+
+  return (
+    <div className="h-80 w-full">
+      <ResponsiveContainer width="100%" height="100%">
+        <LineChart data={chartData}>
+          <CartesianGrid
+            strokeDasharray="3 3"
+            vertical={false}
+            stroke="#e4e4e7"
+          />
+          <XAxis
+            dataKey={data.length > 0 ? "name" : "day"}
+            fontSize={10}
+            fontWeight="bold"
+            tickLine={false}
+            axisLine={false}
+            stroke="#000"
+            tick={{ dy: 10 }}
+          />
+          <YAxis
+            fontSize={10}
+            fontWeight="bold"
+            tickLine={false}
+            axisLine={false}
+            stroke="#000"
+          />
+          <Tooltip
+            contentStyle={{
+              backgroundColor: "#000",
+              border: "none",
+              borderRadius: "4px",
+              color: "#fff",
+              fontSize: "12px",
+              fontWeight: "bold",
+            }}
+            itemStyle={{ color: "#fff" }}
+            cursor={{ stroke: "#000", strokeWidth: 2 }}
+          />
+          <Line
+            type="monotone"
+            dataKey={data.length > 0 ? "age" : "age"}
+            stroke="#000"
+            strokeWidth={3}
+            dot={{ r: 4, fill: "#000", strokeWidth: 2, stroke: "#fff" }}
+            activeDot={{ r: 6, stroke: "#000", strokeWidth: 2, fill: "#fff" }}
+          />
+        </LineChart>
+      </ResponsiveContainer>
+    </div>
+  );
+}
+</file>
+
+<file path="src/components/AddItemModal.jsx">
+"use client";
+import { useState } from "react";
+
+export default function AddItemModal({ onClose, onSuccess }) {
+  const [formData, setFormData] = useState({
+    sku: "",
+    name: "",
+    category: "Cement",
+    unit: "bag",
+    quantity: 0,
+    unitCost: "",
+    reorderLevel: 10,
+  });
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      const res = await fetch("http://localhost:5001/api/inventory", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(formData),
+      });
+      const data = await res.json();
+      if (data.success) onSuccess();
+    } catch (err) {
+      alert("Error adding item. Ensure SKU is unique.");
+    }
+  };
+
+  return (
+    <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-50">
+      <div className="bg-white rounded-2xl p-8 w-full max-w-md shadow-xl">
+        <h2 className="text-xl font-bold mb-6">Add New Material</h2>
+        <form onSubmit={handleSubmit} className="space-y-4">
+          <div className="grid grid-cols-2 gap-4">
+            <div>
+              <label className="block text-xs font-bold text-gray-500 uppercase mb-1">
+                SKU (Unique ID)
+              </label>
+              <input
+                required
+                className="w-full border rounded-lg p-2"
+                placeholder="e.g. CMT-ULT-01"
+                onChange={(e) =>
+                  setFormData({ ...formData, sku: e.target.value })
+                }
+              />
+            </div>
+            <div>
+              <label className="block text-xs font-bold text-gray-500 uppercase mb-1">
+                Material Name
+              </label>
+              <input
+                required
+                className="w-full border rounded-lg p-2"
+                placeholder="UltraTech Cement"
+                onChange={(e) =>
+                  setFormData({ ...formData, name: e.target.value })
+                }
+              />
+            </div>
+          </div>
+
+          <div className="grid grid-cols-2 gap-4">
+            <div>
+              <label className="block text-xs font-bold text-gray-500 uppercase mb-1">
+                Category
+              </label>
+              <select
+                className="w-full border rounded-lg p-2"
+                onChange={(e) =>
+                  setFormData({ ...formData, category: e.target.value })
+                }
+              >
+                {["Cement", "Steel", "Tiles", "Pipes", "Paint", "Hardware"].map(
+                  (c) => (
+                    <option key={c} value={c}>
+                      {c}
+                    </option>
+                  )
+                )}
+              </select>
+            </div>
+            <div>
+              <label className="block text-xs font-bold text-gray-500 uppercase mb-1">
+                Unit
+              </label>
+              <select
+                className="w-full border rounded-lg p-2"
+                onChange={(e) =>
+                  setFormData({ ...formData, unit: e.target.value })
+                }
+              >
+                {["bag", "piece", "meter", "kg", "bundle"].map((u) => (
+                  <option key={u} value={u}>
+                    {u}
+                  </option>
+                ))}
+              </select>
+            </div>
+          </div>
+
+          <div className="grid grid-cols-2 gap-4">
+            <div>
+              <label className="block text-xs font-bold text-gray-500 uppercase mb-1">
+                Initial Qty
+              </label>
+              <input
+                type="number"
+                required
+                className="w-full border rounded-lg p-2"
+                onChange={(e) =>
+                  setFormData({ ...formData, quantity: Number(e.target.value) })
+                }
+              />
+            </div>
+            <div>
+              <label className="block text-xs font-bold text-gray-500 uppercase mb-1">
+                Unit Cost (₹)
+              </label>
+              <input
+                type="number"
+                required
+                className="w-full border rounded-lg p-2"
+                onChange={(e) =>
+                  setFormData({ ...formData, unitCost: Number(e.target.value) })
+                }
+              />
+            </div>
+          </div>
+
+          <div className="flex gap-3 pt-4">
+            <button
+              type="button"
+              onClick={onClose}
+              className="flex-1 px-4 py-2 border rounded-lg hover:bg-gray-50"
+            >
+              Cancel
+            </button>
+            <button
+              type="submit"
+              className="flex-1 px-4 py-2 bg-gray-900 text-white rounded-lg hover:bg-gray-800"
+            >
+              Save Item
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  );
+}
+</file>
+
+<file path="src/components/InventoryTable.js">
+// src/components/InventoryTable.js
+import { getStockStatus } from "@/utils/formatters";
+
+export default function InventoryTable({ items }) {
+  return (
+    <div className="overflow-hidden bg-white rounded-2xl border border-zinc-200">
+      <div className="overflow-x-auto">
+        <table className="w-full">
+          <thead>
+            <tr className="border-b border-zinc-200 bg-zinc-50/50">
+              <th className="px-6 py-4 text-left text-xs font-bold text-black uppercase tracking-widest">
+                Material Name
+              </th>
+              <th className="px-6 py-4 text-left text-xs font-bold text-black uppercase tracking-widest">
+                Category
+              </th>
+              <th className="px-6 py-4 text-right text-xs font-bold text-black uppercase tracking-widest">
+                Stock Level
+              </th>
+              <th className="px-6 py-4 text-left text-xs font-bold text-black uppercase tracking-widest">
+                Status
+              </th>
+            </tr>
+          </thead>
+          <tbody className="divide-y divide-zinc-100">
+            {items.map((item) => {
+              const status = getStockStatus(item.quantity, item.reorderLevel);
+
+              return (
+                <tr
+                  key={item.sku}
+                  className="hover:bg-zinc-50 transition-colors"
+                >
+                  <td className="px-6 py-5">
+                    <span className="font-semibold text-black">
+                      {item.name}
+                    </span>
+                  </td>
+                  <td className="px-6 py-5">
+                    <span className="text-zinc-600 text-sm">
+                      {item.category}
+                    </span>
+                  </td>
+                  <td className="px-6 py-5 text-right">
+                    <span className="font-bold text-black font-mono">
+                      {item.quantity}
+                    </span>
+                    <span className="text-zinc-500 text-sm ml-1">
+                      {item.unit}
+                    </span>
+                  </td>
+                  <td className="px-6 py-5">
+                    <span
+                      className={`inline-flex items-center px-3 py-1 rounded-md text-[10px] font-black uppercase tracking-tighter border ${status.color}`}
+                    >
+                      {status.label}
+                    </span>
+                  </td>
+                </tr>
+              );
+            })}
+            {items.length === 0 && (
+              <tr>
+                <td colSpan="4" className="px-6 py-12 text-center">
+                  <span className="text-zinc-400 text-sm font-normal">
+                    No materials found in inventory.
+                  </span>
+                </td>
+              </tr>
+            )}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  );
+}
+</file>
+
+<file path="src/components/LayoutWrapper.js">
+// src/components/LayoutWrapper.js
+"use client";
+import { useState } from "react";
+import { usePathname } from "next/navigation";
+import Sidebar from "./Sidebar";
+import Navbar from "./Navbar";
+
+export default function LayoutWrapper({ children }) {
+  const pathname = usePathname();
+  const [isCollapsed, setIsCollapsed] = useState(false);
+  const isLandingPage = pathname === "/";
+
+  if (isLandingPage) return <>{children}</>;
+
+  return (
+    <div className="min-h-screen bg-white">
+      <Sidebar isCollapsed={isCollapsed} setIsCollapsed={setIsCollapsed} />
+      <div className="flex flex-col">
+        <Navbar isCollapsed={isCollapsed} />
+        <main
+          className={`p-8 bg-zinc-50/50 min-h-[calc(100vh-80px)] transition-all duration-300 ${
+            isCollapsed ? "ml-20" : "ml-64"
+          }`}
+        >
+          {children}
+        </main>
+      </div>
+    </div>
+  );
+}
+</file>
+
+<file path="src/components/Navbar.js">
+// src/components/Navbar.js
+import { Search, Bell, Sun } from "lucide-react";
+
+export default function Navbar({ isCollapsed }) {
+  return (
+    <header
+      className={`h-20 bg-white border-b border-zinc-200 flex items-center justify-between px-8 sticky top-0 z-10 transition-all duration-300 ${
+        isCollapsed ? "ml-20" : "ml-64"
+      }`}
+    >
+      <div className="flex items-center gap-4">
+        <div className="w-10 h-10 rounded-full bg-black flex items-center justify-center text-white font-bold border border-black">
+          JD
+        </div>
+        <div className="hidden sm:block">
+          <h2 className="text-sm font-black text-black uppercase tracking-tighter">
+            John Doe
+          </h2>
+          <p className="text-[10px] text-zinc-500 font-bold uppercase tracking-widest">
+            Main Warehouse
+          </p>
+        </div>
+      </div>
+
+      <div className="flex items-center gap-6">
+        <div className="relative hidden lg:block">
+          <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-zinc-400" />
+          <input
+            className="pl-10 pr-4 py-2 bg-zinc-50 border border-zinc-200 rounded-md text-sm focus:outline-none focus:ring-1 focus:ring-black w-64 transition-all placeholder:text-zinc-400"
+            placeholder="SEARCH INVENTORY..."
+            type="text"
+          />
+        </div>
+        <div className="flex items-center gap-3 text-black border-l border-zinc-200 pl-6">
+          <button className="p-1 hover:bg-zinc-100 rounded transition-colors">
+            <Sun size={20} />
+          </button>
+          <button className="p-1 hover:bg-zinc-100 rounded transition-colors relative">
+            <Bell size={20} />
+            <span className="absolute top-0 right-0 w-2 h-2 bg-black rounded-full border border-white"></span>
+          </button>
+        </div>
+      </div>
+    </header>
+  );
+}
+</file>
+
+<file path="src/components/SalesForm.js">
+// src/components/SalesForm.js
+"use client";
+import { useState } from "react";
+import { api } from "@/services/api";
+
+export default function SalesForm() {
+  const [formData, setFormData] = useState({
+    sku: "",
+    quantity: "",
+    date: new Date().toISOString().split("T")[0],
+  });
+  const [status, setStatus] = useState({ type: "", msg: "" });
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      await api.recordSale(formData);
+      setStatus({ type: "success", msg: "Sale recorded successfully!" });
+      setFormData({
+        sku: "",
+        quantity: "",
+        date: new Date().toISOString().split("T")[0],
+      });
+    } catch (err) {
+      setStatus({ type: "error", msg: "Error recording sale. Check SKU." });
+    }
+  };
+
+  return (
+    <form
+      onSubmit={handleSubmit}
+      className="max-w-md space-y-4 bg-white p-6 border border-gray-200 rounded-xl shadow-sm"
+    >
+      <div>
+        <label className="block text-sm font-medium text-gray-700 mb-1">
+          SKU ID
+        </label>
+        <input
+          required
+          type="text"
+          value={formData.sku}
+          onChange={(e) => setFormData({ ...formData, sku: e.target.value })}
+          className="w-full p-2 border border-gray-300 rounded focus:ring-2 focus:ring-blue-500 outline-none"
+          placeholder="e.g. TMT-12MM-JSW"
+        />
+      </div>
+      <div>
+        <label className="block text-sm font-medium text-gray-700 mb-1">
+          Quantity Sold
+        </label>
+        <input
+          required
+          type="number"
+          value={formData.quantity}
+          onChange={(e) =>
+            setFormData({ ...formData, quantity: e.target.value })
+          }
+          className="w-full p-2 border border-gray-300 rounded focus:ring-2 focus:ring-blue-500 outline-none"
+        />
+      </div>
+      <div>
+        <label className="block text-sm font-medium text-gray-700 mb-1">
+          Date of Sale
+        </label>
+        <input
+          required
+          type="date"
+          value={formData.date}
+          onChange={(e) => setFormData({ ...formData, date: e.target.value })}
+          className="w-full p-2 border border-gray-300 rounded focus:ring-2 focus:ring-blue-500 outline-none"
+        />
+      </div>
+      <button
+        type="submit"
+        className="w-full bg-blue-700 text-white py-2 px-4 rounded font-medium hover:bg-blue-800 transition-colors"
+      >
+        Record Transaction
+      </button>
+      {status.msg && (
+        <p
+          className={`text-sm p-2 rounded ${
+            status.type === "success"
+              ? "bg-green-50 text-green-700"
+              : "bg-red-50 text-red-700"
+          }`}
+        >
+          {status.msg}
+        </p>
+      )}
+    </form>
+  );
+}
+</file>
+
+<file path="src/components/Sidebar.js">
+// src/components/Sidebar.js
+"use client";
+import Link from "next/link";
+import { usePathname } from "next/navigation";
+import {
+  LayoutDashboard,
+  Box,
+  ShoppingCart,
+  BarChart3,
+  Settings,
+  ChevronLeft,
+  ChevronRight,
+  Menu,
+} from "lucide-react";
+
+const menuItems = [
+  { name: "Dashboard", icon: LayoutDashboard, path: "/dashboard" },
+  { name: "Inventory", icon: Box, path: "/inventory" },
+  { name: "Sales Entry", icon: ShoppingCart, path: "/sales" },
+  { name: "Analytics", icon: BarChart3, path: "/analytics" },
+  { name: "Settings", icon: Settings, path: "/settings" },
+];
+
+export default function Sidebar({ isCollapsed, setIsCollapsed }) {
+  const pathname = usePathname();
+
+  return (
+    <aside
+      className={`bg-white border-r border-zinc-200 min-h-screen p-4 flex flex-col fixed left-0 top-0 z-20 transition-all duration-300 ${
+        isCollapsed ? "w-20" : "w-64"
+      }`}
+    >
+      <div
+        className={`flex items-center ${
+          isCollapsed ? "justify-center" : "justify-between"
+        } mb-10 px-2`}
+      >
+        {!isCollapsed && (
+          <div className="flex items-center gap-2">
+            <div className="w-8 h-8 bg-black text-white rounded flex items-center justify-center">
+              <Box className="w-4 h-4" />
+            </div>
+            <span className="font-bold text-lg tracking-tighter text-black">
+              BUILDSTOCK
+            </span>
+          </div>
+        )}
+        <button
+          onClick={() => setIsCollapsed(!isCollapsed)}
+          className="p-1.5 hover:bg-zinc-100 rounded-md border border-zinc-200 text-black transition-colors"
+        >
+          {isCollapsed ? <Menu size={18} /> : <ChevronLeft size={18} />}
+        </button>
+      </div>
+
+      <nav className="flex-1 space-y-2">
+        {!isCollapsed && (
+          <p className="text-[10px] font-black text-zinc-400 uppercase tracking-widest mb-4 px-3">
+            Menu
+          </p>
+        )}
+        {menuItems.map((item) => {
+          const isActive = pathname === item.path;
+          return (
+            <Link
+              key={item.path}
+              href={item.path}
+              title={isCollapsed ? item.name : ""}
+              className={`flex items-center transition-all group rounded-lg ${
+                isCollapsed
+                  ? "justify-center p-3"
+                  : "justify-between px-3 py-2.5"
+              } ${
+                isActive
+                  ? "bg-black text-white shadow-md"
+                  : "text-zinc-500 hover:text-black hover:bg-zinc-100"
+              }`}
+            >
+              <div className="flex items-center gap-3">
+                <item.icon size={isCollapsed ? 22 : 18} />
+                {!isCollapsed && (
+                  <span className="text-sm font-bold uppercase tracking-tight">
+                    {item.name}
+                  </span>
+                )}
+              </div>
+            </Link>
+          );
+        })}
+      </nav>
+    </aside>
+  );
+}
+</file>
+
+<file path="src/components/StatCard.js">
+export default function StatCard({
+  title,
+  value,
+  subtext,
+  color = "text-blue-600",
+}) {
+  return (
+    <div className="bg-white p-6 rounded-xl border border-slate-200 shadow-sm">
+      <p className="text-sm font-medium text-slate-500 uppercase tracking-wider">
+        {title}
+      </p>
+      <h3 className={`text-3xl font-bold mt-2 ${color}`}>{value}</h3>
+      <p className="text-xs text-slate-400 mt-2">{subtext}</p>
+    </div>
+  );
+}
+</file>
+
+<file path="src/services/api.js">
+// src/services/api.js
+const API_BASE_URL =
+  process.env.NEXT_PUBLIC_API_URL || "http://localhost:5001/api";
+
+export const api = {
+  // Pulls from inventory.controller.js (getAllItems)
+  getInventory: async () => {
+    const res = await fetch(`${API_BASE_URL}/inventory`);
+    const json = await res.json();
+    return json.success ? json.data : [];
+  },
+
+  // Pulls from analytics.controller.js (getDeadStockReport)
+  getDeadStock: async () => {
+    const res = await fetch(`${API_BASE_URL}/analytics/dead-stock`);
+    const json = await res.json();
+    return json.success ? json.data : [];
+  },
+
+  // Pulls from analytics.controller.js (getFastMovingItems)
+  getFastMoving: async () => {
+    const res = await fetch(`${API_BASE_URL}/analytics/fast-moving`);
+    const json = await res.json();
+    return json.success ? json.data : [];
+  },
+};
+</file>
+
+<file path="src/styles/globals.css">
+@import "tailwindcss";
+
+:root {
+  --background: #f8fafc;
+  --foreground: #0f172a;
+}
+
+@theme {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+}
+</file>
+
+<file path="src/utils/formatters.js">
+// src/utils/formatters.js
+export const formatCurrency = (amount) => {
+  return new Intl.NumberFormat("en-IN", {
+    style: "currency",
+    currency: "INR",
+  }).format(amount);
+};
+
+export const getStockStatus = (quantity, threshold) => {
+  if (quantity <= 0) {
+    // Critical: Solid Black
+    return {
+      label: "Out of Stock",
+      color: "text-white bg-black border-black",
+    };
+  }
+  if (quantity <= threshold) {
+    // Warning: Dark Gray
+    return {
+      label: "Low Stock",
+      color: "text-black bg-zinc-200 border-zinc-400",
+    };
+  }
+  // Normal: Light Gray/White
+  return {
+    label: "In Stock",
+    color: "text-zinc-500 bg-white border-zinc-200",
+  };
+};
+</file>
+
+<file path=".gitignore">
+# See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
+
+# dependencies
+/node_modules
+/.pnp
+.pnp.*
+.yarn/*
+!.yarn/patches
+!.yarn/plugins
+!.yarn/releases
+!.yarn/versions
+
+# testing
+/coverage
+
+# next.js
+/.next/
+/out/
+
+# production
+/build
+
+# misc
+.DS_Store
+*.pem
+
+# debug
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.pnpm-debug.log*
+
+# env files (can opt-in for committing if needed)
+.env*
+
+# vercel
+.vercel
+
+# typescript
+*.tsbuildinfo
+next-env.d.ts
+</file>
+
+<file path="eslint.config.mjs">
+import { defineConfig, globalIgnores } from "eslint/config";
+import nextVitals from "eslint-config-next/core-web-vitals";
+import nextTs from "eslint-config-next/typescript";
+
+const eslintConfig = defineConfig([
+  ...nextVitals,
+  ...nextTs,
+  // Override default ignores of eslint-config-next.
+  globalIgnores([
+    // Default ignores of eslint-config-next:
+    ".next/**",
+    "out/**",
+    "build/**",
+    "next-env.d.ts",
+  ]),
+]);
+
+export default eslintConfig;
+</file>
+
+<file path="next.config.ts">
+import type { NextConfig } from "next";
+
+const nextConfig: NextConfig = {
+  /* config options here */
+};
+
+export default nextConfig;
+</file>
+
+<file path="package.json">
+{
+  "name": "frontend",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "eslint"
+  },
+  "dependencies": {
+    "lucide-react": "^0.562.0",
+    "next": "16.1.1",
+    "react": "19.2.3",
+    "react-dom": "19.2.3",
+    "recharts": "^3.6.0"
+  },
+  "devDependencies": {
+    "@tailwindcss/postcss": "^4",
+    "@types/node": "^20",
+    "@types/react": "^19",
+    "@types/react-dom": "^19",
+    "eslint": "^9",
+    "eslint-config-next": "16.1.1",
+    "tailwindcss": "^4",
+    "typescript": "^5"
+  }
+}
+</file>
+
+<file path="postcss.config.mjs">
+const config = {
+  plugins: {
+    "@tailwindcss/postcss": {},
+  },
+};
+
+export default config;
+</file>
+
+<file path="README.md">
+This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+
+## Getting Started
+
+First, run the development server:
+
+```bash
+npm run dev
+# or
+yarn dev
+# or
+pnpm dev
+# or
+bun dev
+```
+
+Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+
+You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+
+This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+
+## Learn More
+
+To learn more about Next.js, take a look at the following resources:
+
+- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
+- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+
+You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+
+## Deploy on Vercel
+
+The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+
+Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+</file>
+
+<file path="tsconfig.json">
+{
+  "compilerOptions": {
+    "target": "ES2017",
+    "lib": ["dom", "dom.iterable", "esnext"],
+    "allowJs": true,
+    "skipLibCheck": true,
+    "strict": true,
+    "noEmit": true,
+    "esModuleInterop": true,
+    "module": "esnext",
+    "moduleResolution": "bundler",
+    "resolveJsonModule": true,
+    "isolatedModules": true,
+    "jsx": "react-jsx",
+    "incremental": true,
+    "plugins": [
+      {
+        "name": "next"
+      }
+    ],
+    "paths": {
+  "@/*": ["./src/*"]
+}
+  },
+  "include": [
+    "next-env.d.ts",
+    "**/*.ts",
+    "**/*.tsx",
+    ".next/types/**/*.ts",
+    ".next/dev/types/**/*.ts",
+    "**/*.mts"
+  ],
+  "exclude": ["node_modules"]
+}
+</file>
+
+</files>
