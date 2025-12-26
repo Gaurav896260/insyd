@@ -1,5 +1,6 @@
 "use client";
 import { useState } from "react";
+import { api } from "@/services/api";
 
 export default function AddItemModal({ onClose, onSuccess }) {
   const [formData, setFormData] = useState({
@@ -15,15 +16,14 @@ export default function AddItemModal({ onClose, onSuccess }) {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const res = await fetch("http://localhost:5001/api/inventory", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(formData),
-      });
-      const data = await res.json();
-      if (data.success) onSuccess();
+      const data = await api.addItem(formData);
+      if (data.success) {
+        onSuccess();
+      } else {
+        alert(data.message || "Error adding item.");
+      }
     } catch (err) {
-      alert("Error adding item. Ensure SKU is unique.");
+      alert("Error adding item. Ensure SKU is unique and server is running.");
     }
   };
 
@@ -41,6 +41,7 @@ export default function AddItemModal({ onClose, onSuccess }) {
                 required
                 className="w-full border rounded-lg p-2"
                 placeholder="e.g. CMT-ULT-01"
+                value={formData.sku}
                 onChange={(e) =>
                   setFormData({ ...formData, sku: e.target.value })
                 }
@@ -54,6 +55,7 @@ export default function AddItemModal({ onClose, onSuccess }) {
                 required
                 className="w-full border rounded-lg p-2"
                 placeholder="UltraTech Cement"
+                value={formData.name}
                 onChange={(e) =>
                   setFormData({ ...formData, name: e.target.value })
                 }
@@ -68,6 +70,7 @@ export default function AddItemModal({ onClose, onSuccess }) {
               </label>
               <select
                 className="w-full border rounded-lg p-2"
+                value={formData.category}
                 onChange={(e) =>
                   setFormData({ ...formData, category: e.target.value })
                 }
@@ -87,6 +90,7 @@ export default function AddItemModal({ onClose, onSuccess }) {
               </label>
               <select
                 className="w-full border rounded-lg p-2"
+                value={formData.unit}
                 onChange={(e) =>
                   setFormData({ ...formData, unit: e.target.value })
                 }
@@ -109,6 +113,7 @@ export default function AddItemModal({ onClose, onSuccess }) {
                 type="number"
                 required
                 className="w-full border rounded-lg p-2"
+                value={formData.quantity}
                 onChange={(e) =>
                   setFormData({ ...formData, quantity: Number(e.target.value) })
                 }
@@ -122,6 +127,7 @@ export default function AddItemModal({ onClose, onSuccess }) {
                 type="number"
                 required
                 className="w-full border rounded-lg p-2"
+                value={formData.unitCost}
                 onChange={(e) =>
                   setFormData({ ...formData, unitCost: Number(e.target.value) })
                 }

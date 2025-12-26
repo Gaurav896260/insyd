@@ -13,18 +13,14 @@ export default function SalesPage() {
   });
   const [status, setStatus] = useState({ type: "", msg: "" });
 
-  // Fetch available SKUs for the dropdown
   useEffect(() => {
     const loadItems = async () => {
       try {
-        // The API now returns { success: true, data: [...], totalPages: X }
-        const response = await api.getInventory(1, 1000); // Fetch all for the dropdown
-
-        // Update state with the nested 'data' array
+        const response = await api.getInventory(1, 1000);
         setItems(response.data || []);
       } catch (err) {
         console.error("Failed to fetch SKUs", err);
-        setItems([]); // Fallback to empty array to prevent .map() error
+        setItems([]);
       } finally {
         setLoading(false);
       }
@@ -37,19 +33,12 @@ export default function SalesPage() {
     setStatus({ type: "", msg: "" });
 
     try {
-      // Backend expects: { sku, quantitySold, invoiceRef }
       const payload = {
         ...form,
         quantitySold: Number(form.quantitySold),
       };
 
-      const res = await fetch("http://localhost:5001/api/sales", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(payload),
-      });
-
-      const result = await res.json();
+      const result = await api.recordSale(payload);
 
       if (result.success) {
         setStatus({
@@ -91,7 +80,7 @@ export default function SalesPage() {
               Select Material (SKU)
             </label>
             <select
-              className="w-full border border-gray-200 rounded-xl p-3 focus:ring-2 focus:ring-blue-500 outline-none transition-all"
+              className="w-full border border-gray-200 rounded-xl p-3 focus:ring-2 focus:ring-blue-500 outline-none"
               value={form.sku}
               onChange={(e) => setForm({ ...form, sku: e.target.value })}
               required
@@ -137,7 +126,7 @@ export default function SalesPage() {
             </div>
           </div>
 
-          <button className="w-full bg-gray-900 text-white py-4 rounded-xl font-bold mt-4 hover:bg-gray-800 transition-all shadow-lg active:scale-[0.98]">
+          <button className="w-full bg-gray-900 text-white py-4 rounded-xl font-bold mt-4 hover:bg-gray-800 transition-all shadow-lg">
             Complete Transaction
           </button>
         </form>

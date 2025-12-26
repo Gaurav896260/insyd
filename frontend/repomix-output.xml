@@ -43,12 +43,15 @@ The content is organized as follows:
 public/
   file.svg
   globe.svg
+  image.png
   next.svg
   vercel.svg
   window.svg
 src/
   app/
     analytics/
+      page.js
+    audit/
       page.js
     dashboard/
       page.js
@@ -208,6 +211,90 @@ export default function AnalyticsPage() {
 }
 </file>
 
+<file path="src/app/audit/page.js">
+"use client";
+import { useState, useEffect } from "react";
+import { api } from "@/services/api";
+import { ClipboardCheck, AlertTriangle } from "lucide-react";
+
+export default function AuditPage() {
+  const [items, setItems] = useState([]);
+  const [selectedSku, setSelectedSku] = useState("");
+  const [physicalQty, setPhysicalQty] = useState("");
+  const [note, setNote] = useState("");
+
+  useEffect(() => {
+    const loadItems = async () => {
+      try {
+        // The API now returns a paginated object
+        const response = await api.getInventory(1, 1000);
+
+        // Extract the 'data' array specifically
+        setItems(response.data || []);
+      } catch (err) {
+        console.error("Audit load failed", err);
+        setItems([]); // Safety fallback
+      }
+    };
+    loadItems();
+  }, []);
+  const handleAudit = async (e) => {
+    e.preventDefault();
+    const res = await fetch("http://localhost:5001/api/audit", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        sku: selectedSku,
+        physicalQuantity: Number(physicalQty),
+        note,
+      }),
+    });
+    if (res.ok) alert("Audit Logged & System Stock Updated!");
+  };
+
+  return (
+    <div className="max-w-xl mx-auto bg-white p-8 rounded-2xl border border-zinc-200">
+      <div className="flex items-center gap-3 mb-6">
+        <ClipboardCheck className="text-blue-600" />
+        <h1 className="text-xl font-bold">Physical Stock Audit</h1>
+      </div>
+
+      <form onSubmit={handleAudit} className="space-y-4">
+        <select
+          className="w-full border p-3 rounded-xl"
+          onChange={(e) => setSelectedSku(e.target.value)}
+        >
+          <option value="">Select Material to Audit</option>
+          {items.map((item) => (
+            <option key={item.sku} value={item.sku}>
+              {item.name} (System: {item.quantity})
+            </option>
+          ))}
+        </select>
+
+        <input
+          type="number"
+          placeholder="Actual Physical Quantity Found"
+          className="w-full border p-3 rounded-xl"
+          value={physicalQty}
+          onChange={(e) => setPhysicalQty(e.target.value)}
+        />
+
+        <textarea
+          placeholder="Notes (e.g., '10 bags damaged by rain')"
+          className="w-full border p-3 rounded-xl"
+          onChange={(e) => setNote(e.target.value)}
+        />
+
+        <button className="w-full bg-black text-white py-3 rounded-xl font-bold">
+          Sync System Stock
+        </button>
+      </form>
+    </div>
+  );
+}
+</file>
+
 <file path="src/app/dashboard/page.js">
 // src/app/dashboard/page.js
 "use client";
@@ -229,12 +316,19 @@ export default function Dashboard() {
   useEffect(() => {
     const loadDashboardData = async () => {
       try {
-        const [inventory, deadStock, fastMoving] = await Promise.all([
-          api.getInventory(),
+        // The API now returns an object { success, data, totalPages... }
+        const [inventoryRes, deadStock, fastMoving] = await Promise.all([
+          api.getInventory(1, 1000), // Get a large limit for dashboard stats
           api.getDeadStock(),
           api.getFastMoving(),
         ]);
-        setData({ inventory, deadStock, fastMoving, loading: false });
+
+        setData({
+          inventory: inventoryRes.data || [], // Access the .data property
+          deadStock,
+          fastMoving,
+          loading: false,
+        });
       } catch (err) {
         console.error("Failed to fetch dashboard data", err);
         setData((prev) => ({ ...prev, loading: false }));
@@ -346,24 +440,28 @@ export default function Dashboard() {
 </file>
 
 <file path="src/app/inventory/page.js">
-// src/app/inventory/page.js
 "use client";
 import { useEffect, useState } from "react";
 import InventoryTable from "@/components/InventoryTable";
-import AddItemModal from "@/components/AddItemModal";
+import AddItemModal from "@/components/AddItemModal"; // Restore Modal Import
 import { api } from "@/services/api";
-import { Loader2, Plus } from "lucide-react";
+import { Loader2, ChevronLeft, ChevronRight, Search, Plus } from "lucide-react";
 
 export default function InventoryPage() {
   const [items, setItems] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [page, setPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(1);
+  const [category, setCategory] = useState("");
+  const [search, setSearch] = useState("");
+  const [isModalOpen, setIsModalOpen] = useState(false); // Restore Modal State
 
   const fetchInventory = async () => {
     setLoading(true);
     try {
-      const data = await api.getInventory();
-      setItems(data);
+      const response = await api.getInventory(page, 10, category, search);
+      setItems(response.data || []);
+      setTotalPages(response.totalPages || 1);
     } catch (error) {
       console.error("Failed to load inventory", error);
     } finally {
@@ -373,21 +471,28 @@ export default function InventoryPage() {
 
   useEffect(() => {
     fetchInventory();
-  }, []);
+  }, [page, category]);
+
+  const handleSearch = (e) => {
+    e.preventDefault();
+    setPage(1);
+    fetchInventory();
+  };
 
   return (
     <div className="space-y-6">
+      {/* HEADER SECTION RESTORED */}
       <div className="flex justify-between items-center">
         <div>
           <h1 className="text-2xl font-bold text-gray-900">
             Current Inventory
           </h1>
           <p className="text-sm text-gray-500">
-            Manage your construction materials and stock levels.
+            Manage your materials and stock levels.
           </p>
         </div>
         <button
-          onClick={() => setIsModalOpen(true)}
+          onClick={() => setIsModalOpen(true)} // Opens the modal
           className="bg-black hover:bg-zinc-800 text-white px-4 py-2 rounded-lg font-medium flex items-center gap-2 transition-colors border border-black"
         >
           <Plus size={18} />
@@ -395,20 +500,78 @@ export default function InventoryPage() {
         </button>
       </div>
 
+      {/* FILTER SECTION */}
+      <div className="flex flex-col md:flex-row gap-4 justify-between bg-white p-4 rounded-xl border border-zinc-200">
+        <form onSubmit={handleSearch} className="flex gap-2">
+          <input
+            className="border border-zinc-300 p-2 rounded-lg text-sm w-64 focus:outline-none focus:ring-1 focus:ring-black"
+            placeholder="Search SKU or Name..."
+            value={search}
+            onChange={(e) => setSearch(e.target.value)}
+          />
+          <button
+            type="submit"
+            className="bg-black text-white px-4 py-2 rounded-lg"
+          >
+            <Search size={16} />
+          </button>
+        </form>
+
+        <select
+          className="border border-zinc-300 p-2 rounded-lg text-sm focus:outline-none"
+          value={category}
+          onChange={(e) => {
+            setCategory(e.target.value);
+            setPage(1);
+          }}
+        >
+          <option value="">All Categories</option>
+          {["Cement", "Steel", "Tiles", "Pipes", "Paint", "Hardware"].map(
+            (c) => (
+              <option key={c} value={c}>
+                {c}
+              </option>
+            )
+          )}
+        </select>
+      </div>
+
       {loading ? (
         <div className="flex justify-center py-20">
-          <Loader2 className="animate-spin h-10 w-10 text-black" />
+          <Loader2 className="animate-spin" />
         </div>
       ) : (
         <InventoryTable items={items} />
       )}
 
+      {/* PAGINATION SECTION */}
+      <div className="flex justify-between items-center bg-white p-4 rounded-xl border border-zinc-200">
+        <button
+          disabled={page === 1}
+          onClick={() => setPage((p) => p - 1)}
+          className="flex items-center gap-1 disabled:opacity-30 font-bold text-sm"
+        >
+          <ChevronLeft size={20} /> PREV
+        </button>
+        <span className="text-xs font-black uppercase tracking-widest">
+          Page {page} of {totalPages}
+        </span>
+        <button
+          disabled={page === totalPages}
+          onClick={() => setPage((p) => p + 1)}
+          className="flex items-center gap-1 disabled:opacity-30 font-bold text-sm"
+        >
+          NEXT <ChevronRight size={20} />
+        </button>
+      </div>
+
+      {/* MODAL COMPONENT RESTORED */}
       {isModalOpen && (
         <AddItemModal
           onClose={() => setIsModalOpen(false)}
           onSuccess={() => {
             setIsModalOpen(false);
-            fetchInventory();
+            fetchInventory(); // Refresh list after adding
           }}
         />
       )}
@@ -437,10 +600,14 @@ export default function SalesPage() {
   useEffect(() => {
     const loadItems = async () => {
       try {
-        const data = await api.getInventory();
-        setItems(data);
+        // The API now returns { success: true, data: [...], totalPages: X }
+        const response = await api.getInventory(1, 1000); // Fetch all for the dropdown
+
+        // Update state with the nested 'data' array
+        setItems(response.data || []);
       } catch (err) {
         console.error("Failed to fetch SKUs", err);
+        setItems([]); // Fallback to empty array to prevent .map() error
       } finally {
         setLoading(false);
       }
@@ -648,7 +815,8 @@ export default function RootLayout({
 </file>
 
 <file path="src/app/page.js">
-import React from "react";
+"use client";
+import React, { useState, useEffect } from "react";
 import {
   Box,
   BarChart3,
@@ -665,17 +833,37 @@ import {
 import Link from "next/link";
 
 export default function LandingPage() {
+  const [isVisible, setIsVisible] = useState(false);
+  const [chartAnimated, setChartAnimated] = useState(false);
+
+  useEffect(() => {
+    const raf = requestAnimationFrame(() => setIsVisible(true));
+    const chartTimer = setTimeout(() => setChartAnimated(true), 1000);
+    return () => {
+      cancelAnimationFrame(raf);
+      clearTimeout(chartTimer);
+    };
+  }, []);
+
   return (
     <div className="bg-white text-gray-900 min-h-screen">
       {/* Navigation */}
       <nav className="relative z-50 w-full px-6 py-6 flex justify-between items-center max-w-7xl mx-auto">
-        <div className="flex items-center gap-3">
-          <div className="w-10 h-10 bg-gray-900 text-white rounded-xl flex items-center justify-center shadow-lg">
+        <div
+          className={`flex items-center gap-3 transition-all duration-700 ${
+            isVisible ? "opacity-100 translate-y-0" : "opacity-0 -translate-y-4"
+          }`}
+        >
+          <div className="w-10 h-10 bg-gray-900 text-white rounded-xl flex items-center justify-center shadow-lg hover:scale-110 hover:rotate-3 transition-transform duration-300">
             <Box className="w-5 h-5" />
           </div>
           <span className="font-bold text-xl tracking-tight">BuildStock</span>
         </div>
-        <div className="hidden md:flex gap-10 text-sm font-medium text-gray-600">
+        <div
+          className={`hidden md:flex gap-10 text-sm font-medium text-gray-600 transition-all duration-700 delay-100 ${
+            isVisible ? "opacity-100 translate-y-0" : "opacity-0 -translate-y-4"
+          }`}
+        >
           <a className="hover:text-gray-900 transition-colors" href="#">
             Features
           </a>
@@ -690,8 +878,12 @@ export default function LandingPage() {
             <ChevronRight className="w-3 h-3 group-hover:translate-x-0.5 transition-transform" />
           </a>
         </div>
-        <div>
-          <button className="bg-gray-900 text-white px-6 py-2.5 rounded-xl text-sm font-medium hover:bg-gray-800 transition-colors shadow-lg">
+        <div
+          className={`transition-all duration-700 delay-200 ${
+            isVisible ? "opacity-100 translate-y-0" : "opacity-0 -translate-y-4"
+          }`}
+        >
+          <button className="bg-gray-900 text-white px-6 py-2.5 rounded-xl text-sm font-medium hover:bg-gray-800 hover:scale-105 hover:shadow-2xl transition-all duration-300 shadow-lg">
             Get Started
           </button>
         </div>
@@ -700,47 +892,82 @@ export default function LandingPage() {
       {/* Hero Section */}
       <main className="relative z-10 w-full max-w-7xl mx-auto px-4 sm:px-6 pt-12 pb-20">
         <div className="text-center mb-16 relative">
-          <div className="flex justify-center gap-6 mb-8">
-            <div className="w-12 h-12 bg-white rounded-full shadow-md flex items-center justify-center border border-gray-100">
+          <div
+            className={`flex justify-center gap-6 mb-8 transition-all duration-700 delay-300 ${
+              isVisible ? "opacity-100 scale-100" : "opacity-0 scale-75"
+            }`}
+          >
+            <div
+              className="w-12 h-12 bg-white rounded-full shadow-md flex items-center justify-center border border-gray-100 hover:scale-110 hover:-translate-y-2 hover:shadow-xl transition-all duration-300 animate-float"
+              style={{ animationDelay: "0s" }}
+            >
               <Box className="w-5 h-5 text-gray-700" />
             </div>
-            <div className="w-12 h-12 bg-white rounded-full shadow-md flex items-center justify-center border border-gray-100">
+            <div
+              className="w-12 h-12 bg-white rounded-full shadow-md flex items-center justify-center border border-gray-100 hover:scale-110 hover:-translate-y-2 hover:shadow-xl transition-all duration-300 animate-float"
+              style={{ animationDelay: "0.2s" }}
+            >
               <BarChart3 className="w-5 h-5 text-gray-700" />
             </div>
-            <div className="w-12 h-12 bg-white rounded-full shadow-md flex items-center justify-center border border-gray-100">
+            <div
+              className="w-12 h-12 bg-white rounded-full shadow-md flex items-center justify-center border border-gray-100 hover:scale-110 hover:-translate-y-2 hover:shadow-xl transition-all duration-300 animate-float"
+              style={{ animationDelay: "0.4s" }}
+            >
               <ShieldCheck className="w-5 h-5 text-gray-700" />
             </div>
           </div>
 
-          <h1 className="text-5xl md:text-7xl font-medium mb-6 leading-[1.1] tracking-tight">
+          <h1
+            className={`text-5xl md:text-7xl font-medium mb-6 leading-[1.1] tracking-tight transition-all duration-700 delay-400 ${
+              isVisible
+                ? "opacity-100 translate-y-0"
+                : "opacity-0 translate-y-8"
+            }`}
+          >
             Inventory Intelligence for
             <br />
             <span className="text-gray-500">Construction Businesses</span>
           </h1>
-          <p className="text-lg text-gray-400 max-w-2xl mx-auto mb-10 font-light leading-relaxed">
+          <p
+            className={`text-lg text-gray-400 max-w-2xl mx-auto mb-10 font-light leading-relaxed transition-all duration-700 delay-500 ${
+              isVisible
+                ? "opacity-100 translate-y-0"
+                : "opacity-0 translate-y-8"
+            }`}
+          >
             Real-time visibility into your Cement, Steel, and Paint stock.
             Identify dead stock before it costs you and never miss a sale due to
             low supplies.
           </p>
-          <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
+          <div
+            className={`flex flex-col sm:flex-row items-center justify-center gap-4 transition-all duration-700 delay-600 ${
+              isVisible
+                ? "opacity-100 translate-y-0"
+                : "opacity-0 translate-y-8"
+            }`}
+          >
             <Link
               href="/dashboard"
-              className="bg-gray-900 text-white px-8 py-3.5 rounded-xl text-sm font-medium hover:bg-gray-800 transition-all shadow-xl"
+              className="bg-gray-900 text-white px-8 py-3.5 rounded-xl text-sm font-medium hover:bg-gray-800 hover:scale-105 hover:shadow-2xl transition-all duration-300 shadow-xl"
             >
-              Let's Get Started
+              Get Started
             </Link>
-            <button className="bg-white border border-gray-200 text-gray-900 px-8 py-3.5 rounded-xl text-sm font-medium hover:bg-gray-50 transition-all">
+            <button className="bg-white border border-gray-200 text-gray-900 px-8 py-3.5 rounded-xl text-sm font-medium hover:bg-gray-50 hover:scale-105 hover:border-gray-300 hover:shadow-lg transition-all duration-300">
               View Demo
             </button>
           </div>
         </div>
 
         {/* Dashboard Preview */}
-        <div className="relative w-full bg-white rounded-3xl shadow-2xl border border-gray-200 overflow-hidden flex flex-col md:flex-row min-h-[700px] ring-1 ring-black/5">
+        <div
+          className={`relative w-full bg-white rounded-3xl shadow-2xl border border-gray-200 overflow-hidden flex flex-col md:flex-row min-h-[700px] ring-1 ring-black/5 transition-all duration-1000 delay-700 ${
+            isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-12"
+          }`}
+        >
           {/* Sidebar */}
           <aside className="w-full md:w-64 bg-gray-50 border-r border-gray-200 flex flex-col p-6 hidden md:flex">
             <div className="flex items-center gap-2 mb-10">
-              <div className="w-8 h-8 bg-gray-900 text-white rounded-lg flex items-center justify-center shadow-md">
+              <div className="w-8 h-8 bg-gray-900 text-white rounded-lg flex items-center justify-center shadow-md hover:rotate-12 transition-transform duration-300">
                 <Box className="w-4 h-4" />
               </div>
               <span className="font-bold text-lg">BuildStock</span>
@@ -749,15 +976,15 @@ export default function LandingPage() {
               <p className="text-[11px] font-bold text-gray-400 uppercase tracking-wider mb-4 px-3">
                 Menu
               </p>
-              <div className="flex items-center gap-3 px-3 py-2.5 bg-white text-gray-900 rounded-xl shadow-sm border border-gray-200">
+              <div className="flex items-center gap-3 px-3 py-2.5 bg-white text-gray-900 rounded-xl shadow-sm border border-gray-200 hover:scale-105 hover:shadow-md transition-all duration-200">
                 <BarChart3 className="w-4 h-4" />
                 <span className="text-sm font-medium">Dashboard</span>
               </div>
-              <div className="flex items-center gap-3 px-3 py-2.5 text-gray-500 hover:text-gray-900 hover:bg-white rounded-xl transition-all cursor-pointer">
+              <div className="flex items-center gap-3 px-3 py-2.5 text-gray-500 hover:text-gray-900 hover:bg-white hover:scale-105 hover:shadow-sm rounded-xl transition-all duration-200 cursor-pointer">
                 <Box className="w-4 h-4" />
                 <span className="text-sm font-medium">Inventory</span>
               </div>
-              <div className="flex items-center gap-3 px-3 py-2.5 text-gray-500 hover:text-gray-900 hover:bg-white rounded-xl transition-all cursor-pointer">
+              <div className="flex items-center gap-3 px-3 py-2.5 text-gray-500 hover:text-gray-900 hover:bg-white hover:scale-105 hover:shadow-sm rounded-xl transition-all duration-200 cursor-pointer">
                 <ShieldCheck className="w-4 h-4" />
                 <span className="text-sm font-medium">Alerts</span>
               </div>
@@ -769,7 +996,7 @@ export default function LandingPage() {
             {/* Header */}
             <header className="h-20 border-b border-gray-200 flex items-center justify-between px-8 bg-white/80 backdrop-blur-md z-10">
               <div className="flex items-center gap-4">
-                <div className="w-10 h-10 rounded-full bg-blue-600 flex items-center justify-center text-white font-bold shadow-md">
+                <div className="w-10 h-10 rounded-full bg-blue-600 flex items-center justify-center text-white font-bold shadow-md hover:scale-110 transition-transform duration-300">
                   T
                 </div>
                 <div>
@@ -778,17 +1005,17 @@ export default function LandingPage() {
                 </div>
               </div>
               <div className="flex items-center gap-4">
-                <div className="relative hidden sm:block">
-                  <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
+                <div className="relative hidden sm:block group">
+                  <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400 group-hover:text-gray-600 transition-colors" />
                   <input
-                    className="pl-10 pr-12 py-2 bg-gray-50 border border-gray-200 rounded-lg text-sm focus:outline-none w-64"
+                    className="pl-10 pr-12 py-2 bg-gray-50 border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-gray-900 focus:border-transparent w-64 transition-all duration-200"
                     placeholder="Search"
                     type="text"
                   />
                 </div>
                 <div className="flex items-center gap-1 text-gray-400 border-l border-gray-200 pl-4">
-                  <Sun className="w-5 h-5" />
-                  <Bell className="w-5 h-5 ml-2" />
+                  <Sun className="w-5 h-5 hover:text-yellow-500 hover:rotate-180 transition-all duration-500 cursor-pointer" />
+                  <Bell className="w-5 h-5 ml-2 hover:text-gray-600 hover:scale-110 hover:rotate-12 transition-all duration-300 cursor-pointer animate-wiggle" />
                 </div>
               </div>
             </header>
@@ -797,10 +1024,10 @@ export default function LandingPage() {
             <div className="flex-1 p-8 overflow-y-auto bg-gray-50/30">
               <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
                 {/* Card 1 */}
-                <div className="bg-white p-8 rounded-3xl shadow-sm border border-gray-100">
+                <div className="bg-white p-8 rounded-3xl shadow-sm border border-gray-100 hover:shadow-xl hover:scale-[1.02] transition-all duration-300">
                   <div className="flex justify-between items-start mb-10">
                     <div className="flex items-center gap-4">
-                      <div className="w-12 h-12 rounded-full bg-gray-50 flex items-center justify-center border border-gray-100">
+                      <div className="w-12 h-12 rounded-full bg-gray-50 flex items-center justify-center border border-gray-100 hover:rotate-12 transition-transform duration-300">
                         <Box className="w-6 h-6 text-gray-600" />
                       </div>
                       <div>
@@ -817,18 +1044,21 @@ export default function LandingPage() {
                     {[40, 60, 30, 80, 50, 45].map((height, i) => (
                       <div
                         key={i}
-                        className="w-full bg-gray-100 rounded-t-lg"
-                        style={{ height: `${height}%` }}
+                        className="w-full bg-gray-100 rounded-t-lg hover:bg-gray-900 transition-all duration-300 cursor-pointer"
+                        style={{
+                          height: chartAnimated ? `${height}%` : "0%",
+                          transition: `all 0.6s ease-out ${i * 0.1}s`,
+                        }}
                       ></div>
                     ))}
                   </div>
                 </div>
 
                 {/* Card 2 */}
-                <div className="bg-white p-8 rounded-3xl shadow-sm border border-gray-100">
+                <div className="bg-white p-8 rounded-3xl shadow-sm border border-gray-100 hover:shadow-xl hover:scale-[1.02] transition-all duration-300">
                   <div className="flex justify-between items-start mb-8">
                     <div className="flex items-center gap-4">
-                      <div className="w-12 h-12 rounded-full bg-gray-900 text-white flex items-center justify-center shadow-lg">
+                      <div className="w-12 h-12 rounded-full bg-gray-900 text-white flex items-center justify-center shadow-lg hover:rotate-12 hover:scale-110 transition-all duration-300">
                         <Box className="w-6 h-6" />
                       </div>
                       <div>
@@ -851,8 +1081,11 @@ export default function LandingPage() {
                     {[60, 75, 55, 90, 70, 45, 65].map((height, i) => (
                       <div
                         key={i}
-                        className="w-full bg-gray-100 rounded-t-md"
-                        style={{ height: `${height}%` }}
+                        className="w-full bg-gray-100 rounded-t-md hover:bg-gray-900 transition-all duration-300 cursor-pointer"
+                        style={{
+                          height: chartAnimated ? `${height}%` : "0%",
+                          transition: `all 0.6s ease-out ${i * 0.1}s`,
+                        }}
                       ></div>
                     ))}
                   </div>
@@ -862,6 +1095,39 @@ export default function LandingPage() {
           </div>
         </div>
       </main>
+
+      <style jsx>{`
+        @keyframes float {
+          0%,
+          100% {
+            transform: translateY(0);
+          }
+          50% {
+            transform: translateY(-10px);
+          }
+        }
+
+        @keyframes wiggle {
+          0%,
+          100% {
+            transform: rotate(0deg);
+          }
+          25% {
+            transform: rotate(-10deg);
+          }
+          75% {
+            transform: rotate(10deg);
+          }
+        }
+
+        .animate-float {
+          animation: float 3s ease-in-out infinite;
+        }
+
+        .animate-wiggle {
+          animation: wiggle 2s ease-in-out infinite;
+        }
+      `}</style>
     </div>
   );
 }
@@ -1511,6 +1777,7 @@ import {
   Settings,
   ChevronLeft,
   ChevronRight,
+  ClipboardCheck,
   Menu,
 } from "lucide-react";
 
@@ -1519,6 +1786,7 @@ const menuItems = [
   { name: "Inventory", icon: Box, path: "/inventory" },
   { name: "Sales Entry", icon: ShoppingCart, path: "/sales" },
   { name: "Analytics", icon: BarChart3, path: "/analytics" },
+  { name: "Stock Audit", icon: ClipboardCheck, path: "/audit" },
   { name: "Settings", icon: Settings, path: "/settings" },
 ];
 
@@ -1620,10 +1888,17 @@ const API_BASE_URL =
 
 export const api = {
   // Pulls from inventory.controller.js (getAllItems)
-  getInventory: async () => {
-    const res = await fetch(`${API_BASE_URL}/inventory`);
+  getInventory: async (page = 1, limit = 10, category = "", search = "") => {
+    const url = new URL(`${API_BASE_URL}/inventory`);
+    url.searchParams.append("page", page);
+    url.searchParams.append("limit", limit);
+    if (category) url.searchParams.append("category", category);
+    if (search) url.searchParams.append("search", search);
+
+    const res = await fetch(url.toString());
     const json = await res.json();
-    return json.success ? json.data : [];
+    // Return the whole object now because we need totalPages
+    return json.success ? json : { data: [], totalPages: 0 };
   },
 
   // Pulls from analytics.controller.js (getDeadStockReport)
