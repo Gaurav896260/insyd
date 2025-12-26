@@ -28,7 +28,6 @@ C. The "Multi-Entry" Fatigue (Human Error)
 
 The Problem: A sale happens. The clerk writes it in a book, then later types it into a computer. Sometimes they forget. Sometimes they subtract the stock but forget to log the payment. The data becomes "out of sync" within hours.
 
-How BuildStock Helps: Atomic Transactions (ACID). In your code, the sale and the stock update are "locked" together. It’s impossible to have one without the other. This eliminates the "I forgot to update the stock" human error entirely.
 ---
 
 ## 🛠️ The Solution (Engineered Features)
